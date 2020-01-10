@@ -12,6 +12,7 @@ Still to do:
 - [ ] detect end of game
 - [ ] use the actual protocol as the event attributes
 - [ ] use DID from one of the agent's pre-existing connections
+- [ ] modify to allow agent-agent routing
 
 It is intended for use as follows:
 
