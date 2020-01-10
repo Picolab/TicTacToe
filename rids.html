@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Register rulesets</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+      function munge(ev) {
+        var e = ev || window.event;
+        var keyCode = e.code || e.keyCode;
+        if(keyCode==27 || keyCode==="Escape"){
+          document.execCommand("undo");
+          e.target.blur();
+        }else if(keyCode==13 || keyCode==="Enter"){
+          var thespan = e.target.textContent;
+          anchors = document.getElementsByTagName("a");
+          for(var i=0; i<anchors.length; ++i){
+            var newhref = "http://"+thespan+"/api/ruleset/register?url="+anchors[i].textContent;
+            anchors[i].href = newhref;
+          }
+          e.target.blur();
+          return false;
+        }
+      }
+    </script>
+  </head>
+  <body>
+<p>
+Clicking on the links below (in order) will register the rulesets required to 
+play Tic Tac Toe with another person running a Pico Agent.
+</p>
+<p>
+The links assume a pico engine running at
+<span contenteditable="true" onkeydown="munge(event)">localhost:8080</span>.
+</p>
+<p>Rulesets needed to play Tic Tac Toe</p>
+<a href="http://localhost:8080/api/ruleset/register?url=https://raw.githubusercontent.com/Picolab/TicTacToe/master/krl/org.sovrin.tic_tac_toe.ui.krl">https://raw.githubusercontent.com/Picolab/TicTacToe/master/krl/org.sovrin.tic_tac_toe.ui.krl</a><br>
+<a href="http://localhost:8080/api/ruleset/register?url=https://raw.githubusercontent.com/Picolab/TicTacToe/master/krl/org.sovrin.tic_tac_toe.krl">https://raw.githubusercontent.com/Picolab/TicTacToe/master/krl/org.sovrin.tic_tac_toe.krl</a><br>
+  </body>
+</html>
+

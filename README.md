@@ -21,4 +21,4 @@ It is intended for use as follows:
 1. Each intalls the `org.sovrin.tic_tac_toe` ruleset into their agent pico
 1. They play as long as they want, using the comment system built into this protocol and/or the basicmessage protocol
 
-To easily register these rulesets, visit [this page]()
+To easily register these rulesets, visit [this page](https://picolab.github.io/TicTacToe/rids.html)
