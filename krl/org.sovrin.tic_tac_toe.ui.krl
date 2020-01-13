@@ -51,8 +51,19 @@ text-align: center;
     </tr>
 </table>
 >>
-    ui_html = function(moves,state,me){
+    make_clickable_js = function(state,me){
       send_move = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/send_move>>
+      state == "my_move" => <<
+var cells = document.getElementsByTagName('td')
+for(var i=0; i<cells.length; ++i){
+  if(cells[i].innerHTML){}else{
+    cells[i].addEventListener("click",function(){
+      location = '#{send_move}?move=#{me}:' + this.id
+    })
+  }
+}>> | ""
+    }
+    ui_html = function(moves,state,me){
       js = moves.map(function(m){
         player = m.substr(0,1)
         cell = m.split(":").tail().head()
@@ -66,15 +77,7 @@ text-align: center;
       + board
       + <<<script type="text/javascript">
 #{js.join(<<
->>)}
-var cells = document.getElementsByTagName('td')
-for(var i=0; i<cells.length; ++i){
-  if(cells[i].innerHTML){}else{
-    cells[i].addEventListener("click",function(){
-      location = '#{send_move}?move=#{me}:' + this.id
-    })
-  }
-}
+>>)}#{make_clickable_js(state,me)}
 </script>
 >>
       + <<<p>Moves: #{moves.encode()}</p>
