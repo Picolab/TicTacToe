@@ -22,6 +22,14 @@ width: 50px;
 vertical-align: middle;
 text-align: center;
 }
+#A1 { border-left: white; border-top: white; }
+#A2 { border-left: white; }
+#A3 { border-left: white; border-bottom: white; }
+#B3 { border-bottom: white; }
+#C3 { border-bottom: white; border-right: white; }
+#C2 { border-right: white; }
+#C1 { border-top: white; border-right: white; }
+#B1 { border-top: white; }
 </style>
 <link rel="shortcut icon" href="#{logo}">
 >>
@@ -59,6 +67,8 @@ text-align: center;
 #{js.join(<<
 >>)}
 </script>
+>>
+      + <<<p>Moves: #{moves.encode()}</p>
 >>
       + html:footer()
     }
