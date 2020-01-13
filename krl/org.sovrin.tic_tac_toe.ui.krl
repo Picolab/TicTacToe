@@ -43,13 +43,17 @@ text-align: center;
     </tr>
 </table>
 >>
-    ui_html = function(moves){
+    ui_html = function(moves,state,me){
       js = moves.map(function(m){
         player = m.substr(0,1)
         cell = m.split(":").tail().head()
         "document.getElementById('" + cell + "').innerHTML = '" + player + "'"
       })
       html:header("Tic Tac Toe",css)
+      + <<<h1>Tic Tac Toe</h1>
+<p>State: #{state}</p>
+<p>I am: #{me}</p>
+>>
       + board
       + <<<script type="text/javascript">
 #{js.join(<<

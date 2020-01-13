@@ -29,7 +29,7 @@ ruleset org.sovrin.tic_tac_toe {
          | c_array.map(simplify)
     }
     html = function(){
-      ui:ui_html(ent:moves)
+      ui:ui_html(ent:moves,ent:state,ent:me)
     }
   }
 //
