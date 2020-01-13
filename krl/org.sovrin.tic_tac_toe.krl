@@ -2,13 +2,14 @@ ruleset org.sovrin.tic_tac_toe {
   meta {
     use module org.sovrin.agent alias agent
     use module org.sovrin.tic_tac_toe.ui alias ui
-    shares __testing, state, opponents, html
+    shares __testing, state, opponents, html, is_winner
   }
   global {
     __testing = { "queries":
       [ { "name": "__testing" }
       , { "name": "state" }
       , { "name": "opponents", "args": [ "label" ] }
+      , { "name": "is_winner", "args": [ "player" ] }
       ] , "events":
       [ { "domain": "ttt", "type": "send_move", "attrs": [ "move" ] }
       , { "domain": "ttt", "type": "receive_move", "attrs": [ "move" ] }
@@ -30,6 +31,23 @@ ruleset org.sovrin.tic_tac_toe {
     }
     html = function(){
       ui:ui_html(ent:moves,ent:state,ent:me)
+    }
+    board = function(move){
+      cell = move.extract(re#([A-C][1-3])$#).head()
+      ent:moves >< "X:"+cell => "X" |
+      ent:moves >< "O:"+cell => "O" |
+      null
+    }
+    check_spec = function(spec,player){
+      spec.all(function(s){board(s)==player})
+    }
+    specs = [
+      ["A1", "A2", "A3"], ["B1", "B2", "B3"], ["C1", "C2", "C3"],
+      ["A1", "B1", "C1"], ["A2", "B2", "C2"], ["A3", "B3", "C3"],
+      ["A1", "B2", "C3"], ["A3", "B2", "C1"]
+    ]
+    is_winner = function(player){
+      specs.any(function(s){s.check_spec(player)})
     }
   }
 //
@@ -63,10 +81,9 @@ ruleset org.sovrin.tic_tac_toe {
     select when ttt send_move
       move re#^([XO]):([A-C][1-3])$# setting(player,move)
     pre {
-      cell = function(m){m.split(":").tail().head()}
-      bad = ent:moves.filter(function(x){move==cell(x)})
-      message = bad.length() == 0 => null
-              | move + " has already been played (as " + bad.head().substr(0,1) + ")"
+      play = board(move)
+      message = play.isnull() => null
+              | move + " has already been played (as " + play + ")"
     }
     if message then send_directive("bad move",{"msg":message})
     fired {
