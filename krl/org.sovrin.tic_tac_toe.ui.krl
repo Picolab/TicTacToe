@@ -67,9 +67,6 @@ text-align: center;
       + <<<script type="text/javascript">
 #{js.join(<<
 >>)}
-var move = function(){
-  new_page = '#{send_move}?move=#{me}:' + this.id
-}
 var cells = document.getElementsByTagName('td')
 for(var i=0; i<cells.length; ++i){
   if(cells[i].innerHTML){}else{
