@@ -13,6 +13,7 @@ ruleset org.sovrin.tic_tac_toe.ui {
       //, { "domain": "d2", "type": "t2", "attrs": [ "a1", "a2" ] }
       ]
     }
+    logo = "https://picolab.github.io/TicTacToe/200px-Tic_tac_toe.svg.png"
     css = <<<style type="text/css">
 td {
 border: 1px solid black;
@@ -22,6 +23,7 @@ vertical-align: middle;
 text-align: center;
 }
 </style>
+<link rel="shortcut icon" href="#{logo}">
 >>
     board = <<<table>
     <tr>
