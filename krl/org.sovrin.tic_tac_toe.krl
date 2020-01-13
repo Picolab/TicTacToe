@@ -20,11 +20,13 @@ ruleset org.sovrin.tic_tac_toe {
                            | "invalid state"
     }
     opponents = function(label){
+      want = [ "label", "their_did" ]
+      simplify = function(c){c.filter(function(v,k){want><k})}
       c_array = label => [agent:connections(label)]
                        | agent:connections().values()
       c_array.length() == 1 && c_array[0].isnull()
         => []
-         | c_array.map(function(v){{"label":v{"label"},"their_did":v{"their_did"}}})
+         | c_array.map(simplify)
     }
     html = function(){
       ui:ui_html(ent:moves)
