@@ -52,6 +52,7 @@ text-align: center;
 </table>
 >>
     ui_html = function(moves,state,me){
+      send_move = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/send_move>>
       js = moves.map(function(m){
         player = m.substr(0,1)
         cell = m.split(":").tail().head()
@@ -66,6 +67,17 @@ text-align: center;
       + <<<script type="text/javascript">
 #{js.join(<<
 >>)}
+var move = function(){
+  new_page = '#{send_move}?move=#{me}:' + this.id
+}
+var cells = document.getElementsByTagName('td')
+for(var i=0; i<cells.length; ++i){
+  if(cells[i].innerHTML){}else{
+    cells[i].addEventListener("click",function(){
+      location = '#{send_move}?move=#{me}:' + this.id
+    })
+  }
+}
 </script>
 >>
       + <<<p>Moves: #{moves.encode()}</p>

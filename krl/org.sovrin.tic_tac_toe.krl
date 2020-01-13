@@ -77,7 +77,8 @@ ruleset org.sovrin.tic_tac_toe {
     select when ttt send_move move re#^([XO]:[A-C][1-3])$# setting(move)
     every {
       //actually _make_ the move
-      send_directive("moved "+move.split(":").tail().head())
+      send_directive("moved "+move.split(":").tail().head(),
+        {"next":<<#{meta:host}/sky/cloud/#{meta:eci}/#{meta:rid}/html.html>>})
     }
     fired {
       ent:moves := ent:moves.append(move)
