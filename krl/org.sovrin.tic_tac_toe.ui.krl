@@ -13,6 +13,8 @@ ruleset org.sovrin.tic_tac_toe.ui {
       //, { "domain": "d2", "type": "t2", "attrs": [ "a1", "a2" ] }
       ]
     }
+    new_line = <<
+>>
     logo = "https://picolab.github.io/TicTacToe/200px-Tic_tac_toe.svg.png"
     css = <<<style type="text/css">
 td {
@@ -64,24 +66,24 @@ for(var i=0; i<cells.length; ++i){
 }>> | ""
     }
     ui_html = function(moves,state,me){
-      js = moves.map(function(m){
+      mark_cells_js = moves.isnull() => [] | moves.map(function(m){
         player = m.substr(0,1)
         cell = m.split(":").tail().head()
         "document.getElementById('" + cell + "').innerHTML = '" + player + "'"
-      })
+      }).join(new_line)
+      js = moves => <<<script type="text/javascript">
+#{mark_cells_js}#{make_clickable_js(state,me)}
+</script>
+>> | ""
       html:header("Tic Tac Toe",css)
       + <<<h1>Tic Tac Toe</h1>
 <p>State: #{state}</p>
 <p>I am: #{me}</p>
 >>
       + board
-      + <<<script type="text/javascript">
-#{js.join(<<
->>)}#{make_clickable_js(state,me)}
-</script>
->>
       + <<<p>Moves: #{moves.encode()}</p>
 >>
+      + js
       + html:footer()
     }
   }
