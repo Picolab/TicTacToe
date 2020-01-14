@@ -112,6 +112,16 @@ ruleset org.sovrin.tic_tac_toe {
 //
 // their initiative
 //
+  rule join_and_start_game {
+    select when ttt start_of_new_game
+      me re#^([XO])# setting(player)
+    fired {
+      ent:me := player == "X" => "O" | "X"
+      ent:state := "my_move"
+      ent:moves := []
+      clear ent:winner
+    }
+  }
   rule join_starting_game {
     select when ttt receive_move
        move re#^([XO]:[A-C][1-3])$# setting(move)
