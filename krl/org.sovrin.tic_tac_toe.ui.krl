@@ -65,7 +65,7 @@ for(var i=0; i<cells.length; ++i){
   }
 }>> | ""
     }
-    ui_html = function(moves,state,me){
+    ui_html = function(moves,state,me,winner){
       mark_cells_js = moves.isnull() => [] | moves.map(function(m){
         player = m.substr(0,1)
         cell = m.split(":").tail().head()
@@ -77,7 +77,7 @@ for(var i=0; i<cells.length; ++i){
 >> | ""
       html:header("Tic Tac Toe",css)
       + <<<h1>Tic Tac Toe</h1>
-<p>State: #{state}</p>
+<p>State: #{state}#{state=="done" => " (winner: "+winner+")" | ""}</p>
 <p>I am: #{me}</p>
 >>
       + board

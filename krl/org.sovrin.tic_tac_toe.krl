@@ -30,7 +30,7 @@ ruleset org.sovrin.tic_tac_toe {
          | c_array.map(simplify)
     }
     html = function(){
-      ui:ui_html(ent:moves,ent:state,ent:me)
+      ui:ui_html(ent:moves,ent:state,ent:me,ent:winner)
     }
     board = function(move){
       cell = move.extract(re#([A-C][1-3])$#).head()
