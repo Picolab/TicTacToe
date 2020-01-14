@@ -61,6 +61,7 @@ ruleset org.sovrin.tic_tac_toe {
       ent:me := player
       ent:state := "my_move"
       ent:moves := []
+      clear ent:winner
     }
   }
   rule vet_move {
@@ -93,7 +94,7 @@ ruleset org.sovrin.tic_tac_toe {
   rule make_move {
     select when ttt send_move move re#^([XO]:[A-C][1-3])$# setting(move)
     every {
-      //actually _make_ the move
+      //actually _send_ the move to opponent
       send_directive("moved "+move.split(":").tail().head(),
         {"next":<<#{meta:host}/sky/cloud/#{meta:eci}/#{meta:rid}/html.html>>})
     }
@@ -101,6 +102,7 @@ ruleset org.sovrin.tic_tac_toe {
       ent:moves := ent:moves.append(move)
       ent:state := "their_move"
       last
+      raise event "ttt:new_move_made"
     }
   }
   rule catch_all {
@@ -121,6 +123,7 @@ ruleset org.sovrin.tic_tac_toe {
       ent:me := player == "X" => "O" | "X"
       ent:state := "my_move"
       ent:moves := [move]
+      clear ent:winner
     }
   }
   rule accept_their_move {
@@ -131,6 +134,30 @@ ruleset org.sovrin.tic_tac_toe {
     fired {
       ent:moves := ent:moves.append(move)
       ent:state := "my_move"
+      raise event "ttt:new_move_made"
+    }
+  }
+//
+// check for outcome
+//
+  rule check_for_outcome {
+    select when ttt:new_move_made
+    pre {
+      winnerX = "X".is_winner()
+      winnerO = "O".is_winner()
+      draw = ent:moves.length() >= 9
+      winner = winnerX => "X"
+             | winnerO => "O"
+             | draw => "none"
+             | null
+    }
+    if winner then every {
+      // actually _send_ the outcome message to opponent
+      send_directive("game over",{"winner":winner})
+    }
+    fired {
+      ent:state := "done"
+      ent:winner := winner
     }
   }
 }
