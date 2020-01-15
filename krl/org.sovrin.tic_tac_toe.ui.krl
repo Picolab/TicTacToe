@@ -1,6 +1,7 @@
 ruleset org.sovrin.tic_tac_toe.ui {
   meta {
     use module html
+    use module io.picolabs.wrangler alias wrangler
     provides ui_html
     shares __testing
   }
@@ -79,6 +80,7 @@ $('td:empty').each(function(){
 >> | ""
       html:header("Tic Tac Toe",css)
       + <<<h1>Tic Tac Toe</h1>
+<h2>#{wrangler:name()}</h2>
 <p>Playing: #{them}</p>
 <p>State: #{state}#{state=="done" => " (winner: "+winner+")" | ""}</p>
 <p>I am: #{me}</p>
