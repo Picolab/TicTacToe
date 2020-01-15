@@ -24,6 +24,7 @@ width: 50px;
 vertical-align: middle;
 text-align: center;
 }
+td.p { cursor: pointer; }
 #A1 { border-left: white; border-top: white; }
 #A2 { border-left: white; }
 #A3 { border-left: white; border-bottom: white; }
@@ -34,6 +35,7 @@ text-align: center;
 #B1 { border-top: white; }
 </style>
 <link rel="shortcut icon" href="#{logo}">
+<script src="/js/jquery-3.1.0.min.js" type="text/javascript"></script>
 >>
     board = <<<table>
     <tr>
@@ -56,20 +58,20 @@ text-align: center;
     make_clickable_js = function(state,me){
       send_move = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/send_move>>
       state == "my_move" => <<
-var cells = document.getElementsByTagName('td')
-for(var i=0; i<cells.length; ++i){
-  if(cells[i].innerHTML){}else{
-    cells[i].addEventListener("click",function(){
-      location = '#{send_move}?move=#{me}:' + this.id
+$('td:empty').each(function(){
+  $(this).addClass('p')
+  .click(function(){
+    $.getJSON('#{send_move}',{move:'#{me}:'+this.id},function(d){
+      location.reload()
     })
-  }
-}>> | ""
+  })
+})>> | ""
     }
     ui_html = function(moves,state,me,them,winner){
       mark_cells_js = moves.isnull() => [] | moves.map(function(m){
         player = m.substr(0,1)
         cell = m.split(":").tail().head()
-        "document.getElementById('" + cell + "').innerHTML = '" + player + "'"
+        "$('#" + cell + "').text('" + player + "')"
       }).join(new_line)
       js = moves => <<<script type="text/javascript">
 #{mark_cells_js}#{make_clickable_js(state,me)}
