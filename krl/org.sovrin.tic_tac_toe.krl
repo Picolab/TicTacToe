@@ -44,6 +44,22 @@ ruleset org.sovrin.tic_tac_toe {
     }
   }
 //
+// initial configuration
+//
+  rule initial_configuration {
+    select when ttt start
+      me re#^([XO])$# setting(me)
+    pre {
+      move = event:attr("move")
+    }
+    fired {
+      ent:me := me
+      ent:state := "their_move"
+      ent:moves := move => [move] | []
+      clear ent:winner
+    }
+  }
+//
 // my initiative
 //
   rule start_game {
@@ -139,6 +155,7 @@ ruleset org.sovrin.tic_tac_toe {
       where ent:state == "their_move"
     //TODO check everything; for now: be careful testing
     fired {
+      ent:them := event:attr("them")
       ent:moves := ent:moves.append(move)
       ent:state := "my_move"
       raise event "ttt:new_move_made"

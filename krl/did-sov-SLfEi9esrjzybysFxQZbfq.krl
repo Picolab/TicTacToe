@@ -10,8 +10,8 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       [ { "name": "__testing" }
       //, { "name": "entry", "args": [ "key" ] }
       ] , "events":
-      [ { "domain": "tictactoe", "type": "initial_move", "attrs": [ "me" ] }
-      , { "domain": "tictactoe", "type": "initial_move", "attrs": [ "me","move" ] }
+      [ { "domain": "tictactoe", "type": "start", "attrs": [ "me" ] }
+      , { "domain": "tictactoe", "type": "start", "attrs": [ "me","move" ] }
       ]
     }
     mturi = re#did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/([A-Za-z0-9_.-]+)#
@@ -33,6 +33,33 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     fired {
       raise wrangler event "install_rulesets_requested"
         attributes {"rid":"org.sovrin.tic_tac_toe"}
+    }
+  }
+//
+// start message construction
+//
+  rule start_message_construction {
+    select when tictactoe start
+      me re#^([XO])$# setting(me)
+    pre {
+      move = event:attr("move")
+      cell = move => move.split(":").tail().head() | null
+      comment = <<Let's play tic-tac-toe. I'll be #{me}. >>
+        + (cell.isnull() => "Your move." | <<I pick cell #{cell}.>>)
+      thid = random:uuid()
+      message = {
+        "@type": "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/move",
+        "@id": thid,
+        "me": me,
+        "moves": move => [move] | [],
+        "comment": comment
+      }
+    }
+    send_directive("start_message",{"message":message})
+    fired {
+      raise ttt event "start" attributes event:attrs
+      ent:thid := thid
+      ent:sender_order := 0
     }
   }
 //
@@ -109,6 +136,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     pre {
       moves = event:attr("moves").decode()
       move = moves[moves.length()-1]
+      attrs = {"them":ent:opponent}
     }
     fired {
       ent:thid := event:attr("~thread"){"thid"} if ent:thid.isnull()
