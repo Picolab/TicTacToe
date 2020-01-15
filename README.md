@@ -17,12 +17,12 @@ Still to do:
 It is intended for use as follows:
 
 1. Bob and Alice have an Aries DIDComm connection, both using Pico Agents
-1. One proposes a game of Tic Tac Toe to the other through the `basicmessage` protocol
 1. Each registers three rulesets in the pico-engine hosting their picos
 1. Each intalls the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset into their agent pico
 1. Each uses the Testing tab to get a UI URL and opens in a window
-1. One uses `tictactoe/start` event to get an invitation message
-1. That agent pastes the invitation into an agent message to the other
+1. One proposes a game of Tic Tac Toe to the other through the `basicmessage` protocol
+    1. She uses `tictactoe/start` event to get an invitation message
+    1. She pastes the invitation into an agent message to the other
 1. They play as long as they want, using the comment system built into this protocol and/or the basicmessage protocol
 
 To easily register these rulesets, visit [this page](https://picolab.github.io/TicTacToe/rids.html)
