@@ -149,6 +149,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
 //
   rule send_move_as_basicmessage {
     select when ttt:new_move_to_send
+      where ent:their_vk
     pre {
       me = event:attr("me")
       moves = event:attr("moves")
