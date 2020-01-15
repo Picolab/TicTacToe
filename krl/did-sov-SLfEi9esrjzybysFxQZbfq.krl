@@ -2,6 +2,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
   meta {
     name "TicTacToe"
     description "tictactoe/1.0"
+    use module org.sovrin.agent alias agent
     shares __testing
   }
   global {
@@ -28,6 +29,20 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
 //
 // agent basicmessage handler
 //
+  rule listen_in_on_basicmessage {
+    select when sovrin basicmessage_message
+    pre {
+      their_key = event:attr("sender_key")
+      conn = agent:connections(){their_key}
+      msg = event:attr("message")
+      content = msg.typeof()=="Map" => msg{"content"} | null
+    }
+    if content.typeof()=="Map" then noop()
+    fired {
+      raise basicmessage event "new_message" attributes content
+      ent:opponent := conn{"label"}
+    }
+  }
   rule accept_new_message {
     select when basicmessage new_message
       where event:attr("@type").match(mturi)
@@ -52,7 +67,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       where event:attr("@id") && ent:thid.isnull()
     pre {
       moves = event:attr("moves").decode()
-      initial_move = moves.istype("Array")
+      initial_move = moves.typeof()=="Array"
                   && moves.length() <= 1
       move = moves.length()==0 => null | moves.head()
     }
@@ -67,12 +82,13 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       me re#^([XO])$# setting(me)
     pre {
       move = event:attr("move")
+      attrs = {"them":ent:opponent}
     }
     if move.isnull() then noop()
     fired {
-      raise ttt event "start_of_new_game" attributes {"me": me}
+      raise ttt event "start_of_new_game" attributes attrs.put({"me": me})
     } else {
-      raise ttt event "receive_move" attributes {"move": move}
+      raise ttt event "receive_move" attributes attrs.put({"move": move})
     }
   }
 }

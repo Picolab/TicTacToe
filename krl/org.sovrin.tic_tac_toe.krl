@@ -1,14 +1,13 @@
 ruleset org.sovrin.tic_tac_toe {
   meta {
-    use module org.sovrin.agent alias agent
     use module org.sovrin.tic_tac_toe.ui alias ui
-    shares __testing, state, opponents, html, is_winner
+    shares __testing, state, them, html, is_winner
   }
   global {
     __testing = { "queries":
       [ { "name": "__testing" }
       , { "name": "state" }
-      , { "name": "opponents", "args": [ "label" ] }
+      , { "name": "them" }
       , { "name": "is_winner", "args": [ "player" ] }
       ] , "events":
       [ { "domain": "ttt", "type": "send_move", "attrs": [ "move" ] }
@@ -20,17 +19,11 @@ ruleset org.sovrin.tic_tac_toe {
       states >< ent:state => ent:state
                            | "invalid state"
     }
-    opponents = function(label){
-      want = [ "label", "their_did" ]
-      simplify = function(c){c.filter(function(v,k){want><k})}
-      c_array = label => [agent:connections(label)]
-                       | agent:connections().values()
-      c_array.length() == 1 && c_array[0].isnull()
-        => []
-         | c_array.map(simplify)
+    them = function(){
+      ent:them
     }
     html = function(){
-      ui:ui_html(ent:moves,ent:state,ent:me,ent:winner)
+      ui:ui_html(ent:moves,ent:state,ent:me,ent:them,ent:winner)
     }
     board = function(move){
       cell = move.extract(re#([A-C][1-3])$#).head()
@@ -116,6 +109,7 @@ ruleset org.sovrin.tic_tac_toe {
     select when ttt start_of_new_game
       me re#^([XO])# setting(player)
     fired {
+      ent:them := event:attr("them")
       ent:me := player == "X" => "O" | "X"
       ent:state := "my_move"
       ent:moves := []
@@ -130,6 +124,7 @@ ruleset org.sovrin.tic_tac_toe {
       player = move.substr(0,1)
     }
     fired {
+      ent:them := event:attr("them")
       ent:me := player == "X" => "O" | "X"
       ent:state := "my_move"
       ent:moves := [move]
