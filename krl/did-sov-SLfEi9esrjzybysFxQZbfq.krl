@@ -8,7 +8,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
   global {
     __testing = { "queries":
       [ { "name": "__testing" }
-      //, { "name": "entry", "args": [ "key" ] }
+      , { "name": "ui_url", "args": [ "use_meta_eci" ] }
       ] , "events":
       [ { "domain": "tictactoe", "type": "start", "attrs": [ "me" ] }
       , { "domain": "tictactoe", "type": "start", "attrs": [ "me","move" ] }
@@ -24,9 +24,10 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         "comment": comment || "move " + moves[moves.length()-1]
       }
     }
-    ui_url = function(){
+    ui_url = function(use_meta_eci){
+      eci = use_meta_eci => meta:eci | ent:my_did
       rid = "org.sovrin.tic_tac_toe.ui"
-      <<#{meta:host}/sky/cloud/#{ent:my_did}/#{rid}/html.html>>
+      <<#{meta:host}/sky/cloud/#{eci}/#{rid}/html.html>>
     }
   }
 //
