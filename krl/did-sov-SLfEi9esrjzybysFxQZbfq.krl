@@ -46,16 +46,10 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
 //
 // tictactoe/1.0/move
 //
-  rule store_thread_id {
-    select when tictactoe move where ent:thid.isnull()
-    fired {
-      ent:thid := event:attr("@id")
-    }
-  }
   rule handle_initial_move_message {
     select when tictactoe move
       me re#^([XO])$# setting(me)
-      where event:attr("@id")
+      where event:attr("@id") && ent:thid.isnull()
     pre {
       moves = event:attr("moves").decode()
       initial_move = moves.istype("Array")
@@ -64,6 +58,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     }
     if initial_move then send_directive("initial move accepted")
     fired {
+      ent:thid := event:attr("@id")
       raise tictactoe event "initial_move" attributes {"move":move,"me":me}
     }
   }
