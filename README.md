@@ -16,7 +16,7 @@ Still to do:
 
 It is intended for use as follows:
 
-1. Bob and Alice have an Aries DIDComm connection, both using Pico Agents
+1. Bob and Alice have an Aries DIDComm connection, both using Pico Agents [get Pico Agents here](https://github.com/Picolab/G2S)
 1. Each registers three rulesets in the pico-engine hosting their picos
 1. Each intalls the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset into their agent pico
 1. Each creates a channel for game play
