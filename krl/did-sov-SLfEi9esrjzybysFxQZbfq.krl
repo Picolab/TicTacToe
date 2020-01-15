@@ -122,7 +122,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     pre {
       me = event:attr("me")
       moves = event:attr("moves")
-      mm = tttMoveMsg(me,moves,event:attr("comment"))
+      mm = tttMoveMap(me,moves,event:attr("comment"))
     }
     fired {
       raise sovrin event "send_basicmessage" attributes {
