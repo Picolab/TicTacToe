@@ -102,6 +102,18 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       raise ttt event "receive_move" attributes attrs.put({"move": move})
     }
   }
+  rule handle_subsequent_moves {
+    select when tictactoe move
+      me re#^([XO])$# setting(me)
+      where ent:thid
+    pre {
+      moves = event:attr("moves").decode()
+      move = moves[moves.length()-1]
+    }
+    fired {
+      raise ttt event "receive_move" attributes attrs.put({"move": move})
+    }
+  }
 //
 // send move as basicmessage
 //
