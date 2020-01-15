@@ -25,8 +25,8 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       }
     }
     ui_url = function(use_meta_eci){
-      eci = use_meta_eci => meta:eci | ent:my_did
-      rid = "org.sovrin.tic_tac_toe.ui"
+      eci = use_meta_eci => meta:eci | ent:my_did || meta:eci
+      rid = "org.sovrin.tic_tac_toe"
       <<#{meta:host}/sky/cloud/#{eci}/#{rid}/html.html>>
     }
   }
