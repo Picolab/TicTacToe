@@ -3,7 +3,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     name "TicTacToe"
     description "tictactoe/1.0"
     use module org.sovrin.agent alias agent
-    shares __testing
+    shares __testing, ui_url
   }
   global {
     __testing = { "queries":
@@ -24,11 +24,15 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         "comment": comment || "move " + moves[moves.length()-1]
       }
     }
+    ui_url = function(){
+      rid = "org.sovrin.tic_tac_toe.ui"
+      <<#{meta:host}/sky/cloud/#{ent:my_did}/#{rid}/html.html>>
+    }
   }
 //
 // bookkeeping
 //
-  rule initialize_a_router {
+  rule use_auxiliary_ruleset {
     select when wrangler ruleset_added where event:attr("rids") >< meta:rid
     fired {
       raise wrangler event "install_rulesets_requested"
@@ -60,6 +64,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       raise ttt event "start" attributes event:attrs
       ent:thid := thid
       ent:sender_order := 0
+      ent:my_did := meta:eci
     }
   }
 //
@@ -78,6 +83,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       raise basicmessage event "new_message" attributes content
       ent:opponent := conn{"label"}
       ent:their_vk := their_key
+      ent:my_did := conn{"my_did"}
     }
   }
   rule accept_new_message {
