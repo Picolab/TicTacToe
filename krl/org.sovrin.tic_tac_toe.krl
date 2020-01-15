@@ -87,7 +87,6 @@ ruleset org.sovrin.tic_tac_toe {
   rule make_move {
     select when ttt send_move move re#^([XO]:[A-C][1-3])$# setting(move)
     every {
-      //actually _send_ the move to opponent
       send_directive("moved "+move.split(":").tail().head(),
         {"next":<<#{meta:host}/sky/cloud/#{meta:eci}/#{meta:rid}/html.html>>})
     }
@@ -96,6 +95,9 @@ ruleset org.sovrin.tic_tac_toe {
       ent:state := "their_move"
       last
       raise event "ttt:new_move_made"
+      raise event "ttt:new_move_to_send" attributes {
+        "me": ent:me, "moves": ent:moves
+      }
     }
   }
   rule catch_all {

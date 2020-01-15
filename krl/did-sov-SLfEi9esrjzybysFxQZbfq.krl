@@ -15,6 +15,15 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       ]
     }
     mturi = re#did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/([A-Za-z0-9_.-]+)#
+    tttMoveMap = function(me,moves,comment){
+      {
+        "@type": "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/move",
+        "~thread": { "thid":ent:thid, "sender_order": ent:sender_order },
+        "me": me,
+        "moves": moves,
+        "comment": comment || "move " + moves[moves.length()-1]
+      }
+    }
   }
 //
 // bookkeeping
@@ -41,6 +50,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     fired {
       raise basicmessage event "new_message" attributes content
       ent:opponent := conn{"label"}
+      ent:their_vk := their_key
     }
   }
   rule accept_new_message {
@@ -74,6 +84,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     if initial_move then send_directive("initial move accepted")
     fired {
       ent:thid := event:attr("@id")
+      ent:sender_order := 0
       raise tictactoe event "initial_move" attributes {"move":move,"me":me}
     }
   }
@@ -89,6 +100,23 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       raise ttt event "start_of_new_game" attributes attrs.put({"me": me})
     } else {
       raise ttt event "receive_move" attributes attrs.put({"move": move})
+    }
+  }
+//
+// send move as basicmessage
+//
+  rule send_move_as_basicmessage {
+    select when ttt:new_move_to_send
+    pre {
+      me = event:attr("me")
+      moves = event:attr("moves")
+      mm = tttMoveMsg(me,moves,event:attr("comment"))
+    }
+    fired {
+      raise sovrin event "send_basicmessage" attributes {
+        "their_vk": ent:their_vk, "content": mm
+      }
+      ent:sender_order := ent:sender_order + 1
     }
   }
 }
