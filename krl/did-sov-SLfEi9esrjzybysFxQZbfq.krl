@@ -86,6 +86,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       ent:thid := event:attr("@id")
       ent:sender_order := 0
       raise tictactoe event "initial_move" attributes {"move":move,"me":me}
+      last
     }
   }
   rule process_initial_move {
@@ -105,12 +106,13 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
   rule handle_subsequent_moves {
     select when tictactoe move
       me re#^([XO])$# setting(me)
-      where ent:thid
     pre {
       moves = event:attr("moves").decode()
       move = moves[moves.length()-1]
     }
     fired {
+      ent:thid := event:attr("~thread"){"thid"} if ent:thid.isnull()
+      ent:sender_order := 0 if ent:sender_order.isnull()
       raise ttt event "receive_move" attributes attrs.put({"move": move})
     }
   }
