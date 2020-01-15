@@ -85,8 +85,8 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     fired {
       ent:thid := event:attr("@id")
       ent:sender_order := 0
-      raise tictactoe event "initial_move" attributes {"move":move,"me":me}
       last
+      raise tictactoe event "initial_move" attributes {"move":move,"me":me}
     }
   }
   rule process_initial_move {
