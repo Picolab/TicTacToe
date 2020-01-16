@@ -15,8 +15,8 @@ It is intended for use as follows:
 1. Each creates a channel for game play⁴
 1. Each uses the Testing tab to get a UI URL to open in a window⁵
 1. One proposes a game of Tic Tac Toe to the other through the `basicmessage` protocol
-    1. She uses `tictactoe/start` event (in the Testing tab) to get an invitation message
-    1. She pastes the invitation into an agent message to the other
+    1. She uses `tictactoe/start` event (in the Testing tab) to get an invitation message⁶
+    1. She pastes the invitation into an agent message to the other⁷
 1. They play as long as they want, using the comment system built into this protocol and/or the basicmessage protocol
 
 
@@ -49,4 +49,12 @@ Finally she clicks on the "ui_url" link and opens a new window from the provided
 ![Choosing the channel](https://github.com/Picolab/TicTacToe/blob/master/images/Step5a.png)
 ![Selecting the ruleset](https://github.com/Picolab/TicTacToe/blob/master/images/Step5b.png)
 ![Highlighting the provided URL](https://github.com/Picolab/TicTacToe/blob/master/images/Step5c.png)
+![The Tic Tac Toe UI](https://github.com/Picolab/TicTacToe/blob/master/images/Step5d.png)
+
+⁶ On the Testing tab, Alice selects her mark and an initial move.
+She clicks on the "tictactoe/start" button and copies the provided message.
+![Generating an initial message](https://github.com/Picolab/TicTacToe/blob/master/images/Step6.png)
+
+⁷ On the Agent tab, Alice pastes the initial message and sends it to Bob.
+![Pasting the initial message](https://github.com/Picolab/TicTacToe/blob/master/images/Step7.png)
 
