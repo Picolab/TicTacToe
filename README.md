@@ -1,7 +1,7 @@
 # TicTacToe
 Aries-compatible implementation of Tic Tac Toe
 
-Based on the [Tic Tac Toe Protocol 1.0](https://github.com/Picolab/TicTacToe) of the Aries project.
+Based on the [Tic Tac Toe Protocol 1.0](https://github.com/hyperledger/aries-rfcs/blob/master/concepts/0003-protocols/tictactoe/README.md) of the Aries project.
 
 The protocol is there merely as "a way to demonstrate how all protocols should be documented." 
 However, it provides a useful sample KRL project of intermediate size, 
