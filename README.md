@@ -5,12 +5,12 @@ Based on the [Tic Tac Toe Protocol 1.0](https://github.com/Picolab/TicTacToe) of
 
 The protocol is there merely as "a way to demonstrate how all protocols should be documented." 
 However, it provides a useful sample KRL project of intermediate size, 
-and demonstrates the concept of an application running on top of DID Comm.
+and demonstrates the concept of an application running on top of DIDComm.
 
 It is intended for use as follows:
 
-1. Bob and Alice have an Aries DID Comm connection, both using Pico Agents¹
-1. Each registers three rulesets in the pico-engine hosting their picos
+1. Bob and Alice have an Aries DIDComm connection, both using Pico Agents¹
+1. Each registers three rulesets in the pico-engine hosting their picos²
 1. Each intalls the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset into their agent pico
 1. Each creates a channel for game play
 1. Each uses the Testing tab to get a UI URL to open in a window
@@ -19,7 +19,6 @@ It is intended for use as follows:
     1. She pastes the invitation into an agent message to the other
 1. They play as long as they want, using the comment system built into this protocol and/or the basicmessage protocol
 
-To easily register these rulesets, visit [this page](https://picolab.github.io/TicTacToe/rids.html)
 
 Still to do:
 
@@ -29,3 +28,6 @@ Still to do:
 - [ ] modify to allow agent-agent routing
 
 ¹ [get Pico Agents here](https://github.com/Picolab/G2S) and you'll need a pico-engine at version 0.52.3 or higher
+
+² To easily register these rulesets, visit [this page](https://picolab.github.io/TicTacToe/rids.html)
+
