@@ -53,8 +53,16 @@ Finally she clicks on the "ui_url" link and opens a new window from the provided
 
 ⁶ On the Testing tab, Alice selects her mark and an initial move.
 She clicks on the "tictactoe/start" button and copies the provided message.
+Refreshing her UI will show that she has made a first move and that the next move is her adversary's
+(who has yet to be identified).
 ![Generating an initial message](https://github.com/Picolab/TicTacToe/blob/master/images/Step6.png)
+![Refreshed UI](https://github.com/Picolab/TicTacToe/blob/master/images/Step6b.png)
 
 ⁷ On the Agent tab, Alice pastes the initial message and sends it to Bob.
+Only the "comment" portion of the message shows in the conversation history.
+Finally, Bob's UI is shown.
 ![Pasting the initial message](https://github.com/Picolab/TicTacToe/blob/master/images/Step7.png)
+![Conversation history](https://github.com/Picolab/TicTacToe/blob/master/images/Step7b.png)
+
+![The adversary's UI](https://github.com/Picolab/TicTacToe/blob/master/images/Step7c.png)
 
