@@ -54,17 +54,27 @@ Click the "add channel" button.
 
 ![Preparing to create a new channel](https://picolab.github.io/TicTacToe/images/Step4b.png)
 
-The new channel which now appears in the list of channels.
+The new channel now appears in the list of channels.
 
 ![The new UI channel](https://picolab.github.io/TicTacToe/images/Step4c.png)
 
-⁵ On the Testing tab, Alice first selects her new "tictactoe ui" channel. 
-Then she opens up the tests for the ruleset. 
-Finally she clicks on the "ui_url" link and opens a new window from the provided URL.
-![Choosing the channel](https://github.com/Picolab/TicTacToe/blob/master/images/Step5a.png)
-![Selecting the ruleset](https://github.com/Picolab/TicTacToe/blob/master/images/Step5b.png)
-![Highlighting the provided URL](https://github.com/Picolab/TicTacToe/blob/master/images/Step5c.png)
-![The Tic Tac Toe UI](https://github.com/Picolab/TicTacToe/blob/master/images/Step5d.png)
+⁵ How to open a window with the Tic Tac Toe user interface.
+Visit the Testing tab.
+Select the new "tictactoe ui" channel. 
+
+![Choosing the channel](https://picolab.github.io/TicTacToe/images/Step5a.png)
+
+Click on the checkbox to open up the tests for the ruleset. 
+
+![Selecting the ruleset](https://picolab.github.io/TicTacToe/images/Step5b.png)
+
+Click on the "ui_url" link. 
+
+![Highlighting the provided URL](https://picolab.github.io/TicTacToe/images/Step5c.png)
+
+Finally, open a new window from the provided URL.
+
+![The Tic Tac Toe UI](https://picolab.github.io/TicTacToe/images/Step5d.png)
 
 ⁶ On the Testing tab, Alice selects her mark and an initial move.
 She clicks on the "tictactoe/start" button and copies the provided message.
