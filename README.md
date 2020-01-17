@@ -39,7 +39,7 @@ Click on the "install ruleset" button.
 
 ![Preparing to install the ruleset](https://picolab.github.io/TicTacToe/images/Step3a.png)
 
-Note that installing the ruleset also causes an auxiliary ruleset to be installed.
+Note that installing the ruleset also causes the `org.sovrin.tic_tac_toe` ruleset to be installed.
 
 ![After installing the rulesets](https://picolab.github.io/TicTacToe/images/Step3b.png)
 
@@ -77,18 +77,28 @@ Finally, open a new window from the provided URL.
 
 ![The Tic Tac Toe UI](https://picolab.github.io/TicTacToe/images/Step5d.png)
 
-⁶ On the Testing tab, Alice selects her mark and an initial move.
-She clicks on the "tictactoe/start" button and copies the provided message.
-Refreshing her UI will show that she has made a first move and that the next move is her adversary's
+⁶ How to select a mark and make an initial move.
+In the Testing tab, enter either "X" or "O" (without the quotes) in the "me" box.
+For the "move" enter your mark, a colon, and a position in the grid.
+Click on the "tictactoe/start" button and copy the provided message.
+
+![Generating an initial message](https://picolab.github.io/TicTacToe/images/Step6.png)
+
+Refresh your UI to see your first move and that the next move is your adversary's
 (who has yet to be identified).
-![Generating an initial message](https://github.com/Picolab/TicTacToe/blob/master/images/Step6.png)
-![Refreshed UI](https://github.com/Picolab/TicTacToe/blob/master/images/Step6b.png)
 
-⁷ On the Agent tab, Alice pastes the initial message and sends it to Bob.
+![Refreshed UI](https://picolab.github.io/TicTacToe/images/Step6b.png)
+
+⁷ How to initiate a game.
+In the Agent tab, paste the initial message and sends it to Bob.
+
+![Pasting the initial message](https://picolab.github.io/TicTacToe/images/Step7.png)
+
 Only the "comment" portion of the message shows in the conversation history.
-Finally, Bob's UI is shown.
-![Pasting the initial message](https://github.com/Picolab/TicTacToe/blob/master/images/Step7.png)
-![Conversation history](https://github.com/Picolab/TicTacToe/blob/master/images/Step7b.png)
 
-![The adversary's UI](https://github.com/Picolab/TicTacToe/blob/master/images/Step7c.png)
+![Conversation history](https://picolab.github.io/TicTacToe/images/Step7b.png)
+
+When Bob opens his UI, this is what he will see:
+
+![The adversary's UI](https://picolab.github.io/TicTacToe/images/Step7c.png)
 
