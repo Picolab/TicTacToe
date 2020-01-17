@@ -50,7 +50,7 @@ Notice that among the existing channels there is one for Alice as an agent and o
 ![Looking at the list of channels](https://picolab.github.io/TicTacToe/images/Step4a.png)
 
 Name the new channel "tictactoe" and gives it a type of "ui".
-Click the "new channel" button.
+Click the "add channel" button.
 
 ![Preparing to create a new channel](https://picolab.github.io/TicTacToe/images/Step4b.png)
 
