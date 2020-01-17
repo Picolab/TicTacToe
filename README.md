@@ -65,10 +65,11 @@ Select the new "tictactoe ui" channel.
 ![Choosing the channel](https://picolab.github.io/TicTacToe/images/Step5a.png)
 
 Click on the checkbox to open up the tests for the ruleset. 
+Click on the "ui_url" link.
 
 ![Selecting the ruleset](https://picolab.github.io/TicTacToe/images/Step5b.png)
 
-Click on the "ui_url" link. 
+A URL is provided as a result. 
 
 ![Highlighting the provided URL](https://picolab.github.io/TicTacToe/images/Step5c.png)
 
