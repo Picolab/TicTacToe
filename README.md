@@ -31,17 +31,32 @@ Still to do:
 
 ² To easily register these rulesets, visit [this page](https://picolab.github.io/TicTacToe/rids.html)
 
-³ See these before and after screenshots. Note that installing the ruleset also causes an auxiliary ruleset to be installed.
-![Preparing to install the ruleset](https://github.com/Picolab/TicTacToe/blob/master/images/Step3a.png)
-![After installing the rulesets](https://github.com/Picolab/TicTacToe/blob/master/images/Step3b.png)
+³ How to install the ruleset. 
+Visit the Rulesets tab of your agent pico. 
+Notice that it has the `org.sovrin.agent` ruleset.
+Select the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset in the dropdown. 
+Click on the "install ruleset" button.
 
-⁴ See screenshot below showing the channels before this begins.
+![Preparing to install the ruleset](https://picolab.github.io/TicTacToe/images/Step3a.png)
+
+Note that installing the ruleset also causes an auxiliary ruleset to be installed.
+
+![After installing the rulesets](https://picolab.github.io/TicTacToe/images/Step3b.png)
+
+⁴ How to create a new channel.
+Visit the Channels tab of your agent pico.
 Notice that among the existing channels there is one for Alice as an agent and one for her DIDComm connection to Bob.
-Then Alice names the new channel "tictactoe" and gives it a type of "ui".
-Finally, she creates the new channel which now appears in the list of channels.
-![Looking at the list of channels](https://github.com/Picolab/TicTacToe/blob/master/images/Step4a.png)
-![Preparing to create a new channel](https://github.com/Picolab/TicTacToe/blob/master/images/Step4b.png)
-![The new UI channel](https://github.com/Picolab/TicTacToe/blob/master/images/Step4c.png)
+
+![Looking at the list of channels](https://picolab.github.io/TicTacToe/images/Step4a.png)
+
+Name the new channel "tictactoe" and gives it a type of "ui".
+Click the "new channel" button.
+
+![Preparing to create a new channel](https://picolab.github.io/TicTacToe/images/Step4b.png)
+
+The new channel which now appears in the list of channels.
+
+![The new UI channel](https://picolab.github.io/TicTacToe/images/Step4c.png)
 
 ⁵ On the Testing tab, Alice first selects her new "tictactoe ui" channel. 
 Then she opens up the tests for the ruleset. 
