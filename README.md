@@ -90,7 +90,7 @@ Refresh your UI to see your first move and that the next move is your adversary'
 ![Refreshed UI](https://picolab.github.io/TicTacToe/images/Step6b.png)
 
 ⁷ How to initiate a game.
-In the Agent tab, paste the initial message and sends it to Bob.
+In the Agent tab, paste the initial message and send it to Bob.
 
 ![Pasting the initial message](https://picolab.github.io/TicTacToe/images/Step7.png)
 
