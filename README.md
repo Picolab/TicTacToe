@@ -27,7 +27,7 @@ Still to do:
 - [ ] add an in-game comment facility?
 - [ ] modify to allow agent-agent routing
 
-¹ [get Pico Agents here](https://github.com/Picolab/G2S) and you'll need a pico-engine at version 0.52.3 or higher
+¹ [get Pico Agents here](https://github.com/Picolab/G2S) and your pico-engine MUST be at version 0.52.3 or higher
 
 ² To easily register these rulesets, visit [this page](https://picolab.github.io/TicTacToe/rids.html)
 
