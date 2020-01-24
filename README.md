@@ -11,13 +11,14 @@ It is intended for use as follows:
 
 1. Bob and Alice have an Aries DIDComm connection, both using Pico Agents¹
 1. Each registers three rulesets in the pico-engine hosting their picos²
-1. Each intalls the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset into their agent pico³
+1. Each installs the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset into their agent pico³
 1. Each creates a channel for game play⁴
 1. Each uses the Testing tab to get a UI URL to open in a window⁵
 1. One proposes a game of Tic Tac Toe to the other through the `basicmessage` protocol
     1. She uses `tictactoe/start` event (in the Testing tab) to get an invitation message⁶
     1. She pastes the invitation into an agent message to the other⁷
 1. They play as long as they want, using the comment system built into this protocol and/or the basicmessage protocol
+1. To prepare to play another game, delete rulesets `org.sovrin.tic_tac_toe` and then `did-sov-SLfEi9esrjzybysFxQZbfq`; repeat steps 3, 6, and 7
 
 
 Still to do:
