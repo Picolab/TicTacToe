@@ -57,7 +57,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       move = event:attr("move")
       sm = start_message(me,move)
     }
-    send_directive("start_message",{"message":message})
+    send_directive("start_message",{"message":sm})
     fired {
       raise ttt event "start" attributes event:attrs
       ent:thid := sm{"@id"}
