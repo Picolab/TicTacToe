@@ -29,7 +29,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       rid = "org.sovrin.tic_tac_toe"
       <<#{meta:host}/sky/cloud/#{eci}/#{rid}/html.html>>
     }
-    start_message = function(thid,me,move){
+    start_message = function(me,move){
       cell = move => move.split(":").tail().head() | null
       comment = <<Let's play tic-tac-toe. I'll be #{me}. >>
         + (cell.isnull() => "Your move." | <<I pick cell #{cell}.>>)
