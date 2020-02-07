@@ -60,9 +60,10 @@ td.p { cursor: pointer; }
 <option selected>X</option>
 <option>O</option>
 </select>
+<button id="s">Let them move first</button>
 >>
     make_clickable_js = function(state,me){
-      send_move = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/send_move>>
+      send_ttt = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt>>
       proto_rid = "did-sov-SLfEi9esrjzybysFxQZbfq"
       start_msg = <<#{meta:host}/sky/cloud/#{meta:eci}/#{proto_rid}/start_message>>
       start_js = <<$.getJSON('#{start_msg}',{me:me,move:move},function(d){
@@ -74,12 +75,19 @@ $('td:empty').each(function(){
   .click(function(){
     var me = #{me.isnull() => "$('#me').val()" | <<'#{me}'>>}
     var move = me + ':' + this.id
-    $.getJSON('#{send_move}',{move:move},function(d){
+    $.getJSON('#{send_ttt}/send_move',{move:move},function(d){
       #{state.isnull() => start_js | "location.reload()"}
     })
   })
 })
->> | ""}
+#{state.isnull() => <<//handle button#s
+$('button#s').click(function(){
+  var me = $('#me').val()
+  var move = null
+  $.getJSON('#{send_ttt}/start',{me:me},function(){
+    #{start_js}
+  })
+})>> | ""}>> | ""}
     reset_js = function(state){
       reset = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/reset_requested>>
       state.isnull() => "" | <<$('button#x').click(function(){
