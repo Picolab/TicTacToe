@@ -184,4 +184,16 @@ ruleset org.sovrin.tic_tac_toe {
       ent:winner := winner
     }
   }
+//
+// initialize for new game
+//
+  rule initialize_for_new_game {
+    select when ttt:reset_requested
+    fired {
+      clear ent:me
+      clear ent:moves
+      clear ent:state
+      clear ent:winner
+    }
+  }
 }

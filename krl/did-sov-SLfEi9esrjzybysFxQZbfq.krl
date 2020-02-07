@@ -3,12 +3,13 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     name "TicTacToe"
     description "tictactoe/1.0"
     use module org.sovrin.agent alias agent
-    shares __testing, ui_url
+    shares __testing, ui_url, start_message
   }
   global {
     __testing = { "queries":
       [ { "name": "__testing" }
       , { "name": "ui_url" }
+      , { "name": "start_message", "args": [ "me", "move" ] }
       ] , "events":
       [ { "domain": "tictactoe", "type": "start", "attrs": [ "me" ] }
       , { "domain": "tictactoe", "type": "start", "attrs": [ "me","move" ] }
@@ -18,16 +19,22 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     tttMoveMap = function(me,moves,comment){
       {
         "@type": "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/move",
-        "~thread": { "thid":ent:thid, "sender_order": ent:sender_order },
         "me": me,
         "moves": moves,
         "comment": comment || "move " + moves[moves.length()-1]
-      }
+      } // caller to add threading
     }
     ui_url = function(){
       eci = meta:eci
       rid = "org.sovrin.tic_tac_toe"
       <<#{meta:host}/sky/cloud/#{eci}/#{rid}/html.html>>
+    }
+    start_message = function(thid,me,move){
+      cell = move => move.split(":").tail().head() | null
+      comment = <<Let's play tic-tac-toe. I'll be #{me}. >>
+        + (cell.isnull() => "Your move." | <<I pick cell #{cell}.>>)
+      tttMoveMap(me,move => [move] | [],comment)
+        .put("@id",random:uuid())
     }
   }
 //
@@ -48,22 +55,12 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       me re#^([XO])$# setting(me)
     pre {
       move = event:attr("move")
-      cell = move => move.split(":").tail().head() | null
-      comment = <<Let's play tic-tac-toe. I'll be #{me}. >>
-        + (cell.isnull() => "Your move." | <<I pick cell #{cell}.>>)
-      thid = random:uuid()
-      message = {
-        "@type": "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/move",
-        "@id": thid,
-        "me": me,
-        "moves": move => [move] | [],
-        "comment": comment
-      }
+      sm = start_message(me,move)
     }
     send_directive("start_message",{"message":message})
     fired {
       raise ttt event "start" attributes event:attrs
-      ent:thid := thid
+      ent:thid := sm{"@id"}
       ent:sender_order := 0
       ent:my_did := meta:eci
     }
@@ -161,6 +158,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       me = event:attr("me")
       moves = event:attr("moves")
       mm = tttMoveMap(me,moves,event:attr("comment"))
+        .put("~thread",{"thid":ent:thid,"sender_order":ent:sender_order+1})
     }
     fired {
       raise sovrin event "send_basicmessage" attributes {

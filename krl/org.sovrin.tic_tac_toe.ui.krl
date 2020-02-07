@@ -56,38 +56,63 @@ td.p { cursor: pointer; }
     </tr>
 </table>
 >>
+    choose = <<<select id="me">
+<option selected>X</option>
+<option>O</option>
+</select>
+>>
     make_clickable_js = function(state,me){
       send_move = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/send_move>>
-      state == "my_move" => <<
+      proto_rid = "did-sov-SLfEi9esrjzybysFxQZbfq"
+      start_msg = <<#{meta:host}/sky/cloud/#{meta:eci}/#{proto_rid}/start_message>>
+      start_js = <<$.getJSON('#{start_msg}',{me:me,move:move},function(d){
+        if(confirm(JSON.stringify(d))) location.reload()
+      })>>
+      state == "my_move" || state.isnull() => <<
 $('td:empty').each(function(){
   $(this).addClass('p')
   .click(function(){
-    $.getJSON('#{send_move}',{move:'#{me}:'+this.id},function(d){
-      location.reload()
+    var me = #{me.isnull() => "$('#me').val()" | <<'#{me}'>>}
+    var move = me + ':' + this.id
+    $.getJSON('#{send_move}',{move:move},function(d){
+      #{state.isnull() => start_js | "location.reload()"}
     })
   })
-})>> | ""
-    }
+})
+>> | ""}
+    reset_js = function(state){
+      reset = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/reset_requested>>
+      state.isnull() => "" | <<$('button').click(function(){
+  $.getJSON('#{reset}',function(d){
+    location.reload()
+  })
+})
+>>}
     ui_html = function(moves,state,me,them,winner){
-      mark_cells_js = moves.isnull() => [] | moves.map(function(m){
+      mark_cells_js = (moves.isnull() => [] | moves)
+      .map(function(m){
         player = m.substr(0,1)
         cell = m.split(":").tail().head()
         "$('#" + cell + "').text('" + player + "')"
       }).join(new_line)
-      js = moves => <<<script type="text/javascript">
-#{mark_cells_js}#{make_clickable_js(state,me)}
+      js = <<<script type="text/javascript">
+#{mark_cells_js}
+#{make_clickable_js(state,me)}
+#{reset_js(state)}
 </script>
->> | ""
+>>
       html:header("Tic Tac Toe",css)
       + <<<h1>Tic Tac Toe</h1>
 <h2>#{wrangler:name()}</h2>
 <p>Playing: #{them}</p>
 <p>State: #{state}#{state=="done" => " (winner: "+winner+")" | ""}</p>
-<p>I am: #{me}</p>
+<p>I am: #{state.isnull() => choose | me}</p>
 >>
       + board
       + <<<p>Moves: #{moves.encode()}</p>
 >>
+      + (state.isnull() => "" | <<<button>reset</button>
+>>)
       + js
       + html:footer()
     }
