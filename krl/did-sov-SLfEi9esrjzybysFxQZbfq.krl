@@ -167,4 +167,17 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       ent:sender_order := ent:sender_order + 1
     }
   }
+//
+// reset
+//
+  rule handle_reset_request {
+    select when ttt:reset_requested
+    fired {
+      clear ent:my_did
+      clear ent:opponent
+      clear ent:sender_order
+      clear ent:their_vk
+      clear ent:thid
+    }
+  }
 }
