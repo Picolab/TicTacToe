@@ -79,13 +79,14 @@ Finally, open a new window from the provided URL.
 ![The Tic Tac Toe UI](https://picolab.github.io/TicTacToe/images/Step5d.png)
 
 ⁶ How to select a mark and make an initial move.
-In the Testing tab, enter either "X" or "O" (without the quotes) in the "me" box.
-For the "move" enter your mark, a colon, and a position in the grid.
-Click on the "tictactoe/start" button and copy the provided message.
+Choose either "X" or "O" in the dropdown beside "I am: ".
+If you wish to move first, click one of the 9 squares of the grid.
+If you want to let them move first, click the "Let them move first" button.
+Select and copy the provided message.
 
 ![Generating an initial message](https://picolab.github.io/TicTacToe/images/Step6.png)
 
-Refresh your UI to see your first move and that the next move is your adversary's
+After copying, click "OK" to see your first move and that the next move is your adversary's
 (who has yet to be identified).
 
 ![Refreshed UI](https://picolab.github.io/TicTacToe/images/Step6b.png)
