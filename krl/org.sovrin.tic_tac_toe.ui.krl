@@ -82,7 +82,7 @@ $('td:empty').each(function(){
 >> | ""}
     reset_js = function(state){
       reset = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/reset_requested>>
-      state.isnull() => "" | <<$('button').click(function(){
+      state.isnull() => "" | <<$('button.x').click(function(){
   $.getJSON('#{reset}',function(d){
     location.reload()
   })
@@ -111,7 +111,7 @@ $('td:empty').each(function(){
       + board
       + <<<p>Moves: #{moves.encode()}</p>
 >>
-      + (state.isnull() => "" | <<<button>reset</button>
+      + (state.isnull() => "" | <<<button id="x">reset</button>
 >>)
       + js
       + html:footer()
