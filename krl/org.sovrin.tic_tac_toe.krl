@@ -190,6 +190,7 @@ ruleset org.sovrin.tic_tac_toe {
   rule initialize_for_new_game {
     select when ttt:reset_requested
     fired {
+      clear ent:them
       clear ent:me
       clear ent:moves
       clear ent:state
