@@ -187,4 +187,27 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       clear ent:thid
     }
   }
+//
+// handle game over
+//
+  rule handle_game_over {
+    select when ttt game_over
+      where ent:their_vk
+    pre {
+      om = tttOutcomeMap(event:attr("winner"),event:attr("comment"))
+        .put("~thread",{"thid":ent:thid,"sender_order":ent:sender_order+1})
+    }
+    fired {
+      raise sovrin event "send_basicmessage" attributes {
+        "their_vk": ent:their_vk, "content": om
+      }
+      ent:sender_order := ent:sender_order + 1
+    }
+  }
+//
+// tictactoe/1.0/outcome
+//
+  rule handle_outcome_message {
+    select when tictactoe outcome
+  }
 }
