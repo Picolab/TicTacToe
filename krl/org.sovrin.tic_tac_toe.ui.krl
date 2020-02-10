@@ -88,6 +88,33 @@ $('button#s').click(function(){
     #{start_js}
   })
 })>> | ""}>> | ""}
+    poll_js = function(){
+      rid = "org.sovrin.tic_tac_toe"
+      poll_state = <<#{meta:host}/sky/cloud/#{meta:eci}/#{rid}/state>>
+      <<//wait for them to move
+var poll_setup = function(){
+  alert("poll_setup called")
+  var f1 = 0;
+  var f2 = 0;
+  var poll = function(sec){
+    $('#sec').text(sec)
+    setTimeout(function(){
+      $.getJSON('#{poll_state}',function(d){
+        if(d=="my_move" || d=="done") location.reload()
+        f1 = f2
+        f2 = sec
+        fn = f1 + f2
+        if(!document.hasFocus())
+          return document.addEventListener('focus',poll_setup)
+        if(fn<86400)poll(fn)
+      })
+    },sec*1000)
+  }
+  poll(1)
+}
+poll_setup()
+>>
+    }
     reset_js = function(state){
       reset = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/reset_requested>>
       state.isnull() => "" | <<$('button#x').click(function(){
@@ -106,6 +133,7 @@ $('button#s').click(function(){
       js = <<<script type="text/javascript">
 #{mark_cells_js}
 #{make_clickable_js(state,me)}
+#{state=="their_move" => poll_js() | ""}
 #{reset_js(state)}
 </script>
 >>
@@ -120,6 +148,8 @@ $('button#s').click(function(){
       + <<<p>Moves: #{moves.encode()}</p>
 >>
       + (state.isnull() => "" | <<<button id="x">reset</button>
+>>)
+      + (state!="their_move" => "" | <<<p>checking in <span id="sec">0</span> seconds</p>
 >>)
       + js
       + html:footer()
