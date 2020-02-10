@@ -24,6 +24,13 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         "comment": comment || "move " + moves[moves.length()-1]
       } // caller to add threading
     }
+    tttOutcomeMap = function(winner,comment){
+      {
+        "@type": "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/outcome",
+        "winner": winner,
+        "comment": comment || "game over"
+      } // caller to add threading
+    }
     ui_url = function(){
       eci = meta:eci
       rid = "org.sovrin.tic_tac_toe"
