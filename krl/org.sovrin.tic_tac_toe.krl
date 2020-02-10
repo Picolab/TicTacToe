@@ -167,21 +167,23 @@ ruleset org.sovrin.tic_tac_toe {
   rule check_for_outcome {
     select when ttt:new_move_made
     pre {
-      winnerX = "X".is_winner()
-      winnerO = "O".is_winner()
       draw = ent:moves.length() >= 9
-      winner = winnerX => "X"
-             | winnerO => "O"
+      winner = "X".is_winner() => "X"
+             | "O".is_winner() => "O"
              | draw => "none"
              | null
     }
-    if winner then every {
-      // actually _send_ the outcome message to opponent
+    if winner then
       send_directive("game over",{"winner":winner})
-    }
     fired {
       ent:state := "done"
       ent:winner := winner
+      raise ttt event "game_over" attributes {
+        "winner": winner,
+        "comment": draw => "Cat's game"
+                 | winner == ent:me => "I won!"
+                 | "You won!"
+      }
     }
   }
 //
@@ -189,12 +191,17 @@ ruleset org.sovrin.tic_tac_toe {
 //
   rule initialize_for_new_game {
     select when ttt:reset_requested
+    send_directive("game over","abandonned")
     fired {
       clear ent:them
       clear ent:me
       clear ent:moves
       clear ent:state
       clear ent:winner
+      raise ttt event "game_over" attributes {
+        "winner": "none",
+        "comment": "abandonned"
+      }
     }
   }
 }
