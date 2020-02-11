@@ -93,7 +93,6 @@ $('button#s').click(function(){
       poll_state = <<#{meta:host}/sky/cloud/#{meta:eci}/#{rid}/state>>
       <<//wait for them to move
 var poll_setup = function(){
-  alert("poll_setup called")
   var f1 = 0;
   var f2 = 0;
   var poll = function(sec){
