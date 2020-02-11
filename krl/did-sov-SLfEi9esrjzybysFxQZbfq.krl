@@ -9,10 +9,8 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     __testing = { "queries":
       [ { "name": "__testing" }
       , { "name": "ui_url" }
-      , { "name": "start_message", "args": [ "me", "move" ] }
       ] , "events":
-      [ { "domain": "tictactoe", "type": "start", "attrs": [ "me" ] }
-      , { "domain": "tictactoe", "type": "start", "attrs": [ "me","move" ] }
+      [
       ]
     }
     mturi = re#did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/([A-Za-z0-9_.-]+)#
@@ -52,24 +50,6 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     fired {
       raise wrangler event "install_rulesets_requested"
         attributes {"rid":"org.sovrin.tic_tac_toe"}
-    }
-  }
-//
-// start message construction
-//
-  rule start_message_construction {
-    select when tictactoe start
-      me re#^([XO])$# setting(me)
-    pre {
-      move = event:attr("move")
-      sm = start_message(me,move)
-    }
-    send_directive("start_message",{"message":sm})
-    fired {
-      raise ttt event "start" attributes event:attrs
-      ent:thid := sm{"@id"}
-      ent:sender_order := 0
-      ent:my_did := meta:eci
     }
   }
 //
