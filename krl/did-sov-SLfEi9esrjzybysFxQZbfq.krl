@@ -155,19 +155,6 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     }
   }
 //
-// reset
-//
-  rule handle_reset_request {
-    select when ttt:reset_requested
-    fired {
-      clear ent:my_did
-      clear ent:opponent
-      clear ent:sender_order
-      clear ent:their_vk
-      clear ent:thid
-    }
-  }
-//
 // handle game over
 //
   rule handle_game_over {
@@ -182,6 +169,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         "their_vk": ent:their_vk, "content": om
       }
       ent:sender_order := ent:sender_order + 1
+      raise tictactoe event "game_over"
     }
   }
 //
@@ -189,5 +177,21 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
 //
   rule handle_outcome_message {
     select when tictactoe outcome
+    fired {
+      raise tictactoe event "game_over"
+    }
+  }
+//
+// prepare for new game
+//
+  rule prepare_for_new_game {
+    select when tictactoe game_over
+    fired {
+      clear ent:my_did
+      clear ent:opponent
+      clear ent:sender_order
+      clear ent:their_vk
+      clear ent:thid
+    }
   }
 }
