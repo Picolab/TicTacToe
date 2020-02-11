@@ -103,8 +103,8 @@ var poll_setup = function(){
         f1 = f2
         f2 = sec
         fn = f1 + f2
-        if(!document.hasFocus())
-          return document.addEventListener('focus',poll_setup)
+//        if(!document.hasFocus())
+//          return document.addEventListener('focus',poll_setup)
         if(fn<86400)poll(fn)
       })
     },sec*1000)
