@@ -18,14 +18,14 @@ ruleset org.sovrin.tic_tac_toe.ui {
 >>
     logo = "https://picolab.github.io/TicTacToe/200px-Tic_tac_toe.svg.png"
     css = <<<style type="text/css">
-td {
+table.game td {
 border: 1px solid black;
 height: 50px;
 width: 50px;
 vertical-align: middle;
 text-align: center;
 }
-td.p { cursor: pointer; }
+table.game td.p { cursor: pointer; }
 #A1 { border-left: white; border-top: white; }
 #A2 { border-left: white; }
 #A3 { border-left: white; border-bottom: white; }
@@ -38,7 +38,7 @@ td.p { cursor: pointer; }
 <link rel="shortcut icon" href="#{logo}">
 <script src="/js/jquery-3.1.0.min.js" type="text/javascript"></script>
 >>
-    board = <<<table>
+    board = <<<table class="game">
     <tr>
         <td id="A1"></td>
         <td id="B1"></td>
