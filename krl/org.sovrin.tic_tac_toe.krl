@@ -191,17 +191,20 @@ ruleset org.sovrin.tic_tac_toe {
 //
   rule initialize_for_new_game {
     select when ttt:reset_requested
-    send_directive("game over","abandonned")
+    pre {
+      options = {
+        "winner": "none",
+        "comment": "abandonned"
+      }
+    }
+    send_directive("game over",options)
     fired {
       clear ent:them
       clear ent:me
       clear ent:moves
       clear ent:state
       clear ent:winner
-      raise ttt event "game_over" attributes {
-        "winner": "none",
-        "comment": "abandonned"
-      }
+      raise ttt event "game_over" attributes options
     }
   }
 }
