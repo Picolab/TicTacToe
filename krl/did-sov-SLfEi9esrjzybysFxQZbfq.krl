@@ -53,6 +53,11 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     fired {
       raise wrangler event "install_rulesets_requested"
         attributes {"rid":aux_rid,"proto_rid":meta:rid}
+    }
+  }
+  rule send_possible_opponents {
+    select when wrangler ruleset_added where event:attr("rids") >< aux_rid
+    fired {
       raise ttt event "possible_opponents_change"
         attributes {"possible_opponents": possible_opponents()}
     }
