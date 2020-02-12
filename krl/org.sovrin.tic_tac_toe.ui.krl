@@ -56,6 +56,14 @@ table.game td.p { cursor: pointer; }
     </tr>
 </table>
 >>
+    choose_opponent = function(opp){
+      item = function(a,k){a+<<<option value="#{k}">${opp{k}}</option>
+>>}
+      <<<select id="them">
+#{opp.keys().reduce(item,"")}
+</select>
+>>
+    }
     choose_mark = <<<select id="me">
 <option selected>X</option>
 <option>O</option>
@@ -121,7 +129,7 @@ poll_setup()
   })
 })
 >>}
-    ui_html = function(moves,state,me,them,winner,proto_rid){
+    ui_html = function(moves,state,me,them,winner,proto_rid,opp){
       mark_cells_js = (moves.isnull() => [] | moves)
       .map(function(m){
         player = m.substr(0,1)
@@ -138,7 +146,7 @@ poll_setup()
       html:header("Tic Tac Toe",css)
       + <<<h1>Tic Tac Toe</h1>
 <h2>#{wrangler:name()}</h2>
-<p>Playing: #{them}</p>
+<p>Playing: #{them => them | opp => choose_opponent(opp) | them}</p>
 <p>State: #{state}#{state=="done" => " (winner: "+winner+")" | ""}</p>
 <p>I am: #{state.isnull() => choose_mark | me}</p>
 >>
