@@ -102,15 +102,15 @@ var poll_setup = function(){
         if(d=="my_move" || d=="done") location.reload()
         f1 = f2
         f2 = sec
-        fn = f1 + f2
-//        if(!document.hasFocus())
-//          return document.addEventListener('focus',poll_setup)
-        if(fn<86400)poll(fn)
+        var fn = f1 + f2
+        if(!document.hidden && fn<86400)poll(fn)
       })
     },sec*1000)
   }
   poll(1)
 }
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) poll_setup()}, false)
 poll_setup()
 >>
     }
