@@ -42,7 +42,10 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         .put("@id",random:uuid())
     }
     possible_opponents = function(){
-      agent:connections().map(function(v){v{"label"}})
+      agent:connections()
+        .values()
+        .sort(function(a,b){a{"created"} cmp b{"created"}})
+        .reduce(function(m,v){m.put(v{"their_vk"},v{"label"})},{})
     }
   }
 //

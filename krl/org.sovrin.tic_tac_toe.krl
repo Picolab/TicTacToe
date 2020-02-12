@@ -30,7 +30,7 @@ ruleset org.sovrin.tic_tac_toe {
         ent:them,
         ent:winner,
         ent:protocol_rid,
-        ent:possible_opponents)
+        ent:possible_opponents_string.decode())
     }
     board = function(move){
       cell = move.extract(re#([A-C][1-3])$#).head()
@@ -69,7 +69,7 @@ ruleset org.sovrin.tic_tac_toe {
   rule update_possible_opponents {
     select when ttt possible_opponents_change
     fired {
-      ent:possible_opponents := event:attr("possible_opponents")
+      ent:possible_opponents_string := event:attr("possible_opponents").encode()
     }
   }
 //
