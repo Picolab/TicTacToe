@@ -56,7 +56,7 @@ table.game td.p { cursor: pointer; }
     </tr>
 </table>
 >>
-    choose = <<<select id="me">
+    choose_mark = <<<select id="me">
 <option selected>X</option>
 <option>O</option>
 </select>
@@ -140,7 +140,7 @@ poll_setup()
 <h2>#{wrangler:name()}</h2>
 <p>Playing: #{them}</p>
 <p>State: #{state}#{state=="done" => " (winner: "+winner+")" | ""}</p>
-<p>I am: #{state.isnull() => choose | me}</p>
+<p>I am: #{state.isnull() => choose_mark | me}</p>
 >>
       + board
       + <<<p>Moves: #{moves.encode()}</p>
