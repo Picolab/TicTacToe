@@ -57,7 +57,7 @@ table.game td.p { cursor: pointer; }
 </table>
 >>
     choose_opponent = function(opp){
-      item = function(a,k){a+<<<option value="#{k}">${opp{k}}</option>
+      item = function(a,k){a+<<<option value="#{k}">#{opp{k}}</option>
 >>}
       <<<select id="them">
 #{opp.keys().reduce(item,"")}
