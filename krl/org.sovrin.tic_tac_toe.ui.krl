@@ -75,7 +75,7 @@ $('td:empty').each(function(){
     var me = #{me.isnull() => "$('#me').val()" | <<'#{me}'>>}
     var move = me + ':' + this.id
     $.getJSON('#{send_ttt}/send_move',{move:move},function(d){
-      #{state.isnull() => start_js | "location.reload()"}
+      #{proto_rid && state.isnull() => start_js | "location.reload()"}
     })
   })
 })
@@ -84,7 +84,7 @@ $('button#s').click(function(){
   var me = $('#me').val()
   var move = null
   $.getJSON('#{send_ttt}/start',{me:me},function(){
-    #{start_js}
+    #{proto_rid => start_js | ""}
   })
 })>> | ""}>> | ""}
     poll_js = function(){
