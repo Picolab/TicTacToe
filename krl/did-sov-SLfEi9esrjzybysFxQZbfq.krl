@@ -41,6 +41,9 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       tttMoveMap(me,move => [move] | [],comment)
         .put("@id",random:uuid())
     }
+    possible_opponents = function(){
+      agent:connections().map(function(v){v{"label"}})
+    }
   }
 //
 // bookkeeping
@@ -50,6 +53,8 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     fired {
       raise wrangler event "install_rulesets_requested"
         attributes {"rid":aux_rid,"proto_rid":meta:rid}
+      raise ttt event "possible_opponents_change"
+        attributes {"possible_opponents": possible_opponents()}
     }
   }
 //
