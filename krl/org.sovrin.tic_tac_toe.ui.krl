@@ -99,18 +99,20 @@ $('button#s').click(function(){
       rid = "org.sovrin.tic_tac_toe"
       poll_state = <<#{meta:host}/sky/cloud/#{meta:eci}/#{rid}/state>>
       <<//wait for them to move
+var timer
 var poll_setup = function(){
-  var f1 = 0;
-  var f2 = 0;
+  if (timer) clearTimeout(timer)
+  var f1 = 0
+  var f2 = 0
   var poll = function(sec){
-    $('#sec').text(sec)
-    setTimeout(function(){
+    $('#sec').text(sec==1 ? "1 second" : sec + " seconds")
+    timer = setTimeout(function(){
       $.getJSON('#{poll_state}',function(d){
         if(d=="my_move" || d=="done") location.reload()
         f1 = f2
         f2 = sec
         var fn = f1 + f2
-        if(!document.hidden && fn<86400)poll(fn)
+        if (!document.hidden && fn<86400) poll(fn)
       })
     },sec*1000)
   }
@@ -155,7 +157,7 @@ poll_setup()
 >>
       + (state.isnull() => "" | <<<button id="x">reset</button>
 >>)
-      + (state!="their_move" => "" | <<<p>checking in <span id="sec">0</span> seconds</p>
+      + (state!="their_move" => "" | <<<p>checking in <span id="sec"></span></p>
 >>)
       + js
       + html:footer()
