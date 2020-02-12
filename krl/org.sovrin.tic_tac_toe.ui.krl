@@ -62,9 +62,8 @@ table.game td.p { cursor: pointer; }
 </select>
 <button id="s">Let them move first</button>
 >>
-    make_clickable_js = function(state,me){
+    make_clickable_js = function(state,me,proto_rid){
       send_ttt = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt>>
-      proto_rid = "did-sov-SLfEi9esrjzybysFxQZbfq"
       start_msg = <<#{meta:host}/sky/cloud/#{meta:eci}/#{proto_rid}/start_message>>
       start_js = <<$.getJSON('#{start_msg}',{me:me,move:move},function(d){
         if(confirm(JSON.stringify(d))) location.reload()
@@ -122,7 +121,7 @@ poll_setup()
   })
 })
 >>}
-    ui_html = function(moves,state,me,them,winner){
+    ui_html = function(moves,state,me,them,winner,proto_rid){
       mark_cells_js = (moves.isnull() => [] | moves)
       .map(function(m){
         player = m.substr(0,1)
@@ -131,7 +130,7 @@ poll_setup()
       }).join(new_line)
       js = <<<script type="text/javascript">
 #{mark_cells_js}
-#{make_clickable_js(state,me)}
+#{make_clickable_js(state,me,proto_rid)}
 #{state=="their_move" => poll_js() | ""}
 #{reset_js(state)}
 </script>

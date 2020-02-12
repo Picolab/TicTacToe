@@ -29,10 +29,10 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         "comment": comment || "game over"
       } // caller to add threading
     }
+    aux_rid = "org.sovrin.tic_tac_toe"
     ui_url = function(){
       eci = meta:eci
-      rid = "org.sovrin.tic_tac_toe"
-      <<#{meta:host}/sky/cloud/#{eci}/#{rid}/html.html>>
+      <<#{meta:host}/sky/cloud/#{eci}/#{aux_rid}/html.html>>
     }
     start_message = function(me,move){
       cell = move => move.split(":").tail().head() | null
@@ -49,7 +49,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     select when wrangler ruleset_added where event:attr("rids") >< meta:rid
     fired {
       raise wrangler event "install_rulesets_requested"
-        attributes {"rid":"org.sovrin.tic_tac_toe"}
+        attributes {"rid":aux_rid,"proto_rid":meta:rid}
     }
   }
 //

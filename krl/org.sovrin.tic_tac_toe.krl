@@ -23,7 +23,7 @@ ruleset org.sovrin.tic_tac_toe {
       ent:them
     }
     html = function(){
-      ui:ui_html(ent:moves,ent:state,ent:me,ent:them,ent:winner)
+      ui:ui_html(ent:moves,ent:state,ent:me,ent:them,ent:winner,ent:protocol_rid)
     }
     board = function(move){
       cell = move.extract(re#([A-C][1-3])$#).head()
@@ -41,6 +41,19 @@ ruleset org.sovrin.tic_tac_toe {
     ]
     is_winner = function(player){
       specs.any(function(s){s.check_spec(player)})
+    }
+  }
+//
+// capture protocol rid if any
+//
+  rule capture_protocol_rid_if_any {
+    select when wrangler ruleset_added where event:attr("rids") >< meta:rid
+    pre {
+      proto_rid = event:attr("proto_rid")
+    }
+    if proto_rid then noop()
+    fired {
+      ent:protocol_rid := proto_rid
     }
   }
 //
