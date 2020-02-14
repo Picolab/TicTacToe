@@ -41,8 +41,8 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       tttMoveMap(me,move => [move] | [],comment)
         .put("@id",random:uuid())
     }
-    possible_opponents = function(){
-      agent:connections()
+    possible_opponents = function(conns){
+      (conns => conns | agent:connections())
         .values()
         .sort(function(a,b){a{"created"} cmp b{"created"}})
         .reduce(function(m,v){m.put(v{"their_vk"},v{"label"})},{})
@@ -63,6 +63,16 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     fired {
       raise ttt event "possible_opponents_change"
         attributes {"possible_opponents": possible_opponents()}
+    }
+  }
+  rule update_possible_opponents {
+    select when agent connections_changed
+    pre {
+      conns = event:attr("connections")
+    }
+    fired {
+      raise ttt event "possible_opponents_change"
+        attributes {"possible_opponents": possible_opponents(conns)}
     }
   }
 //
