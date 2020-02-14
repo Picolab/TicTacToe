@@ -59,10 +59,11 @@ table.game td.p { cursor: pointer; }
     choose_opponent = function(opp){
       item = function(a,k){a+<<<option value="#{k}">#{opp{k}}</option>
 >>}
+      opp.length() =>
       <<<select id="them">
 #{opp.keys().reduce(item,"")}
 </select>
->>
+>> | null
     }
     choose_mark = <<<select id="me">
 <option selected>X</option>
