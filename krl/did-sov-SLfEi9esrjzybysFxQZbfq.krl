@@ -76,38 +76,24 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     }
   }
 //
-// agent basicmessage handler
+// eavesdrop incoming agent basicmessages for one of interest
 //
-  rule listen_in_on_basicmessage {
+  rule eavesdrop_basicmessage {
     select when sovrin basicmessage_message
+      where event:attr("message"){["content","@type"]}.match(mturi)
     pre {
-      their_key = event:attr("sender_key")
-      conn = agent:connections(){their_key}
-      msg = event:attr("message")
-      content = msg.typeof()=="Map" => msg{"content"} | null
+      content = event:attr("message"){"content"}
+      event_type = content{"@type"}.extract(mturi).head()
+      conn = event_type => agent:connections(){event:attr("sender_key")}
+                         | null
     }
-    if content.typeof()=="Map" then noop()
+    if event_type && conn then noop()
     fired {
-      raise basicmessage event "new_message" attributes content
       ent:opponent := conn{"label"}
-      ent:their_vk := their_key
+      ent:their_vk := conn{"their_vk"}
       ent:my_did := conn{"my_did"}
+      raise tictactoe event event_type attributes content
     }
-  }
-  rule accept_new_message {
-    select when basicmessage new_message
-      where event:attr("@type").match(mturi)
-    pre {
-      message_type = event:attr("@type").extract(mturi).head()
-    }
-    fired {
-      last
-      raise tictactoe event message_type attributes event:attrs
-    }
-  }
-  rule catch_bad_message {
-    select when basicmessage new_message
-    send_directive("bad message")
   }
 //
 // tictactoe/1.0/move
