@@ -103,7 +103,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       me re#^([XO])$# setting(me)
       where event:attr("@id") && ent:thid.isnull()
     pre {
-      moves = event:attr("moves").decode()
+      moves = event:attr("moves").decode() || []
       initial_move = moves.typeof()=="Array"
                   && moves.length() <= 1
       move = moves.length()==0 => null | moves.head()

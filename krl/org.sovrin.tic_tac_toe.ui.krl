@@ -75,7 +75,9 @@ table.game td.p { cursor: pointer; }
       send_ttt = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt>>
       start_msg = <<#{meta:host}/sky/cloud/#{meta:eci}/#{proto_rid}/start_message>>
       start_js = <<$.getJSON('#{start_msg}',{me:me,move:move},function(d){
-        if(confirm(JSON.stringify(d))) location.reload()
+        $.getJSON('#{meta:host}/sky/event/#{meta:eci}/prime/sovrin/send_basicmessage',
+          {their_vk:$('#them').val(),content:d},
+          function(){location.reload()})
       })>>
       state == "my_move" || state.isnull() => <<
 $('td:empty').each(function(){
