@@ -123,6 +123,7 @@ var poll_setup = function(){
 }
 document.addEventListener('visibilitychange', function() {
   if (!document.hidden) poll_setup()}, false)
+document.addEventListener('mouseover', function() {poll_setup()}, false)
 poll_setup()
 >>
     }
