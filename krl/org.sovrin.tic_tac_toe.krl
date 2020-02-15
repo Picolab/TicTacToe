@@ -10,8 +10,10 @@ ruleset org.sovrin.tic_tac_toe {
       , { "name": "them" }
       , { "name": "is_winner", "args": [ "player" ] }
       ] , "events":
-      [ { "domain": "ttt", "type": "send_move", "attrs": [ "move" ] }
+      [ { "domain": "ttt", "type": "send_move", "attrs": [ "move", "them" ] }
       , { "domain": "ttt", "type": "receive_move", "attrs": [ "move" ] }
+      , { "domain": "ttt", "type": "start", "attrs": [ "me", "move", "them" ] }
+      , { "domain": "ttt", "type": "reset_requested" }
       ]
     }
     states = [ null, "my_move", "their_move", "wrap_up", "done" ]
@@ -82,6 +84,7 @@ ruleset org.sovrin.tic_tac_toe {
       move = event:attr("move")
     }
     fired {
+      ent:them := event:attr("them")
       ent:me := me
       ent:state := "their_move"
       ent:moves := move => [move] | []
@@ -96,6 +99,7 @@ ruleset org.sovrin.tic_tac_toe {
        move re#^([XO]):[A-C][1-3]$# setting(player)
        where ent:state.isnull()
     fired {
+      ent:them := event:attr("them")
       ent:me := player
       ent:state := "my_move"
       ent:moves := []

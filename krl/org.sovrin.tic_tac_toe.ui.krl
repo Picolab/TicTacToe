@@ -85,7 +85,8 @@ $('td:empty').each(function(){
   .click(function(){
     var me = #{me.isnull() => "$('#me').val()" | <<'#{me}'>>}
     var move = me + ':' + this.id
-    $.getJSON('#{send_ttt}/send_move',{move:move},function(d){
+    var them = $('#them option:selected').text()
+    $.getJSON('#{send_ttt}/send_move',{move:move,them:them},function(d){
       #{proto_rid && state.isnull() => start_js | "location.reload()"}
     })
   })
@@ -93,8 +94,9 @@ $('td:empty').each(function(){
 #{state.isnull() => <<//handle button#s
 $('button#s').click(function(){
   var me = $('#me').val()
-  var move = null
-  $.getJSON('#{send_ttt}/start',{me:me},function(){
+  var move = []
+  var them = $('#them option:selected').text()
+  $.getJSON('#{send_ttt}/start',{me:me,them:them},function(){
     #{proto_rid => start_js | ""}
   })
 })>> | ""}>> | ""}
@@ -128,7 +130,7 @@ poll_setup()
 >>
     }
     reset_js = function(state){
-      reset = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt/reset_requested>>
+      reset = <<#{meta:host}/sky/event/#{meta:eci}/reset/ttt/reset_requested>>
       state.isnull() => "" | <<$('button#x').click(function(){
   $.getJSON('#{reset}',function(d){
     location.reload()
@@ -145,7 +147,7 @@ poll_setup()
       js = <<<script type="text/javascript">
 #{mark_cells_js}
 #{make_clickable_js(state,me,proto_rid)}
-#{state=="their_move" => poll_js() | ""}
+#{state=="their_move" || state.isnull() => poll_js() | ""}
 #{reset_js(state)}
 </script>
 >>
@@ -161,8 +163,9 @@ poll_setup()
 >>
       + (state.isnull() => "" | <<<button id="x">reset</button>
 >>)
-      + (state!="their_move" => "" | <<<p>checking in <span id="sec"></span></p>
->>)
+      + (state=="their_move" || state.isnull() =>
+          <<<p>checking in <span id="sec"></span></p>
+>> | "")
       + js
       + html:footer()
     }
