@@ -57,8 +57,8 @@ table.game td.p { cursor: pointer; }
 </table>
 >>
     choose_opponent = function(opp){
-      item = function(a,k){a+<<<option value="#{k}">#{opp{k}}</option>;
->>}
+      item = function(a,k){a+<<<option value="#{k}">#{opp{k}}</option>
+>>};
       opp.length() =>
       <<<select id="them">
 #{opp.keys().reduce(item,"")}
@@ -140,8 +140,8 @@ poll_setup()
     ui_html = function(moves,state,me,them,winner,proto_rid,opp){
       mark_cells_js = (moves.isnull() => [] | moves)
       .map(function(m){
-        player = m.substr(0,1)
-        cell = m.split(":").tail().head()
+        player = m.substr(0,1);
+        cell = m.split(":").tail().head();
         "$('#" + cell + "').text('" + player + "')"
       }).join(new_line);
       js = <<<script type="text/javascript">
