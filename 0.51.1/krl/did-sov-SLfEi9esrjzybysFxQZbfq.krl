@@ -14,7 +14,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       ]
     }
     piuri = "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0"
-    mturi = (piuri + "([A-Za-z0-9_.-]+)").as("RegExp")
+    mturi = (piuri + "/([A-Za-z0-9_.-]+)").as("RegExp")
     tttMoveMap = function(me,moves,comment){
       {
         "@type": piuri + "/move",
