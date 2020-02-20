@@ -14,9 +14,10 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       ]
     }
     mturi = re#did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/([A-Za-z0-9_.-]+)#
+    piuri = "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0"
     tttMoveMap = function(me,moves,comment){
       {
-        "@type": "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/move",
+        "@type": piuri + "/move",
         "me": me,
         "moves": moves,
         "comment": comment || "move " + moves[moves.length()-1]
@@ -24,7 +25,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     }
     tttOutcomeMap = function(winner,comment){
       {
-        "@type": "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0/outcome",
+        "@type": piuri + "/outcome",
         "winner": winner,
         "comment": comment || "game over"
       } // caller to add threading
@@ -47,6 +48,18 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         .sort(function(a,b){a{"created"} cmp b{"created"}})
         .reduce(function(m,v){m.put(v{"their_vk"},v{"label"})},{})
     }
+  }
+//
+// identify as agent plug-in
+//
+  rule identify_as_agent_plug_in {
+    select when agent request_for_plug_ins
+    send_directive("spec",{
+      "piuri": piuri,
+      "name": meta:rulesetName,
+      "ui_html_rid": aux_rid,
+      "ui_html_name": "html"
+    })
   }
 //
 // bookkeeping
