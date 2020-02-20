@@ -37,8 +37,8 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     }
     start_message = function(me,move){
       cell = move => move.split(":").tail().head() | null;
-      comment = <<Let's play tic-tac-toe. I'll be #{me}. >>;
-        + (cell.isnull() => "Your move." | <<I pick cell #{cell}.>>)
+      comment = <<Let's play tic-tac-toe. I'll be #{me}. >>
+        + (cell.isnull() => "Your move." | <<I pick cell #{cell}.>>);
       tttMoveMap(me,move => [move] | [],comment)
         .put("@id",random:uuid())
     }
