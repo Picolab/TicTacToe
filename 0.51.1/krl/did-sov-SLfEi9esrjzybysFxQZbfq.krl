@@ -32,12 +32,12 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     }
     aux_rid = "org.sovrin.tic_tac_toe"
     ui_url = function(){
-      eci = meta:eci
+      eci = meta:eci;
       <<#{meta:host}/sky/cloud/#{eci}/#{aux_rid}/html.html>>
     }
     start_message = function(me,move){
-      cell = move => move.split(":").tail().head() | null
-      comment = <<Let's play tic-tac-toe. I'll be #{me}. >>
+      cell = move => move.split(":").tail().head() | null;
+      comment = <<Let's play tic-tac-toe. I'll be #{me}. >>;
         + (cell.isnull() => "Your move." | <<I pick cell #{cell}.>>)
       tttMoveMap(me,move => [move] | [],comment)
         .put("@id",random:uuid())

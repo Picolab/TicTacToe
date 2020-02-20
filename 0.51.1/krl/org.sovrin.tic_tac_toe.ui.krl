@@ -57,7 +57,7 @@ table.game td.p { cursor: pointer; }
 </table>
 >>
     choose_opponent = function(opp){
-      item = function(a,k){a+<<<option value="#{k}">#{opp{k}}</option>
+      item = function(a,k){a+<<<option value="#{k}">#{opp{k}}</option>;
 >>}
       opp.length() =>
       <<<select id="them">
@@ -72,13 +72,13 @@ table.game td.p { cursor: pointer; }
 <button id="s">Let them move first</button>
 >>
     make_clickable_js = function(state,me,proto_rid){
-      send_ttt = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt>>
-      start_msg = <<#{meta:host}/sky/cloud/#{meta:eci}/#{proto_rid}/start_message>>
+      send_ttt = <<#{meta:host}/sky/event/#{meta:eci}/move/ttt>>;
+      start_msg = <<#{meta:host}/sky/cloud/#{meta:eci}/#{proto_rid}/start_message>>;
       start_js = <<$.getJSON('#{start_msg}',{me:me,move:move},function(d){
         $.getJSON('#{meta:host}/sky/event/#{meta:eci}/prime/sovrin/send_basicmessage',
           {their_vk:$('#them').val(),content:d},
           function(){location.reload()})
-      })>>
+      })>>;
       state == "my_move" || state.isnull() => <<
 $('td:empty').each(function(){
   $(this).addClass('p')
@@ -101,8 +101,8 @@ $('button#s').click(function(){
   })
 })>> | ""}>> | ""}
     poll_js = function(){
-      rid = "org.sovrin.tic_tac_toe"
-      poll_state = <<#{meta:host}/sky/cloud/#{meta:eci}/#{rid}/state>>
+      rid = "org.sovrin.tic_tac_toe";
+      poll_state = <<#{meta:host}/sky/cloud/#{meta:eci}/#{rid}/state>>;
       <<//wait for them to move
 var timer
 var poll_setup = function(){
@@ -130,7 +130,7 @@ poll_setup()
 >>
     }
     reset_js = function(state){
-      reset = <<#{meta:host}/sky/event/#{meta:eci}/reset/ttt/reset_requested>>
+      reset = <<#{meta:host}/sky/event/#{meta:eci}/reset/ttt/reset_requested>>;
       state.isnull() => "" | <<$('button#x').click(function(){
   $.getJSON('#{reset}',function(d){
     location.reload()
@@ -143,14 +143,14 @@ poll_setup()
         player = m.substr(0,1)
         cell = m.split(":").tail().head()
         "$('#" + cell + "').text('" + player + "')"
-      }).join(new_line)
+      }).join(new_line);
       js = <<<script type="text/javascript">
 #{mark_cells_js}
 #{make_clickable_js(state,me,proto_rid)}
 #{state=="their_move" || state.isnull() => poll_js() | ""}
 #{reset_js(state)}
 </script>
->>
+>>;
       html:header("Tic Tac Toe",css)
       + <<<h1>Tic Tac Toe</h1>
 <h2>#{wrangler:name()}</h2>

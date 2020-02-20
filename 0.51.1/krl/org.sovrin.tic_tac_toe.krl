@@ -35,7 +35,7 @@ ruleset org.sovrin.tic_tac_toe {
         ent:possible_opponents_string.decode())
     }
     board = function(move){
-      cell = move.extract(re#([A-C][1-3])$#).head()
+      cell = move.extract(re#([A-C][1-3])$#).head();
       ent:moves >< "X:"+cell => "X" |
       ent:moves >< "O:"+cell => "O" |
       null
