@@ -50,6 +50,25 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         .reduce(function(m,v){m.put(v{"their_vk"},v{"label"})},{})
     }
     channel_name = "tictactoe"
+    tictactoe_policy = {
+      "name": "Tic Tac Toe policy",
+      "event": {
+        "allow": [
+          { "domain": "sovrin", "type": "send_basicmessage" },
+          { "domain": "http", "type": "post" },
+          { "domain": "ttt", "type": "start" },
+          { "domain": "ttt", "type": "send_move" },
+          { "domain": "ttt", "type": "reset_requested" },
+        ]
+      },
+      "query": {
+        "allow": [
+          { "rid": meta:rid, "name": "start_message"},
+          { "rid": aux_rid, "name": "state" },
+          { "rid": aux_rid, "name": "html" },
+        ]
+      },
+    }
   }
 //
 // identify as agent plug-in
@@ -82,10 +101,25 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         attributes {"possible_opponents": possible_opponents()}
     }
   }
+  rule create_engine_policy {
+    select when wrangler ruleset_added where event:attr("rids") >< meta:rid
+    pre {
+      the_policy = engine:listPolicies()
+        .filter(function(v){v{"name"}==tictactoe_policy{"name"}})
+        .head()
+    }
+    if the_policy.isnull() then
+      wrangler:newPolicy(tictactoe_policy)
+  }
   rule create_game_channel {
     select when wrangler ruleset_added where event:attr("rids") >< meta:rid
+    pre {
+      the_policy = engine:listPolicies()
+        .filter(function(v){v{"name"}==tictactoe_policy{"name"}})
+        .head()
+    }
     if wrangler:channel(channel_name).isnull() then
-      wrangler:createChannel(meta:picoId,channel_name,"ui")
+      wrangler:createChannel(meta:picoId,channel_name,"ui",the_policy{"id"})
   }
   rule update_possible_opponents {
     select when agent connections_changed
