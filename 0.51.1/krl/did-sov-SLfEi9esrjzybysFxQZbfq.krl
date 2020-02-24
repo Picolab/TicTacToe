@@ -2,6 +2,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
   meta {
     name "TicTacToe"
     description <<tictactoe/1.0>>
+    use module io.picolabs.wrangler alias wrangler
     use module org.sovrin.agent alias agent
     shares __testing, ui_url, start_message
   }
@@ -48,6 +49,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         .sort(function(a,b){a{"created"} cmp b{"created"}})
         .reduce(function(m,v){m.put(v{"their_vk"},v{"label"})},{})
     }
+    channel_name = "tictactoe"
   }
 //
 // identify as agent plug-in
@@ -58,7 +60,9 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       "piuri": piuri,
       "name": meta:rulesetName,
       "ui_html_rid": aux_rid,
-      "ui_html_name": "html"
+      "ui_html_name": "html",
+      "channel_name": channel_name,
+      "channel_id": wrangler:channel(channel_name) || meta:eci,
     })
   }
 //
@@ -77,6 +81,11 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       raise ttt event "possible_opponents_change"
         attributes {"possible_opponents": possible_opponents()}
     }
+  }
+  rule create_game_channel {
+    select when wrangler ruleset_added where event:attr("rids") >< meta:rid
+    if wrangler:channel(channel_name).isnull() then
+      wrangler:createChannel(meta:picoId,channel_name,"ui")
   }
   rule update_possible_opponents {
     select when agent connections_changed
