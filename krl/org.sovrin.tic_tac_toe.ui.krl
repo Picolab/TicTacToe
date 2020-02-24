@@ -59,12 +59,11 @@ table.game td.p { cursor: pointer; }
     choose_opponent = function(opp){
       item = function(a,k){a+<<<option value="#{k}">#{opp{k}}</option>
 >>}
-      opp.length() =>
       <<<select id="them">
 <option value="">choose a connection</option>
-#{opp.keys().reduce(item,"")}
+#{opp => opp.keys().reduce(item,"") | ""}
 </select>
->> | null
+>>
     }
     choose_mark = <<<select id="me">
 <option selected>X</option>
@@ -161,7 +160,7 @@ poll_setup()
       html:header("Tic Tac Toe",css)
       + <<<h1>Tic Tac Toe</h1>
 <h2>#{wrangler:name()}</h2>
-<p>Playing: #{them => them | opp => choose_opponent(opp) | them}</p>
+<p>Playing: #{them => them | choose_opponent(opp)}</p>
 <p>State: #{state}#{state=="done" => " (winner: "+winner+")" | ""}</p>
 <p>I am: #{state.isnull() => choose_mark | me}</p>
 >>
