@@ -61,6 +61,7 @@ table.game td.p { cursor: pointer; }
 >>}
       opp.length() =>
       <<<select id="them">
+<option value="">choose a connection</option>
 #{opp.keys().reduce(item,"")}
 </select>
 >> | null
@@ -85,8 +86,13 @@ $('td:empty').each(function(){
   .click(function(){
     var me = #{me.isnull() => "$('#me').val()" | <<'#{me}'>>}
     var move = me + ':' + this.id
+    var attrs = {move:move}
+#{state.isnull() => <<
     var them = $('#them option:selected').text()
-    $.getJSON('#{send_ttt}/send_move',{move:move,them:them},function(d){
+    if(them.length===0) return
+    attrs.them = them
+>> | ""}
+    $.getJSON('#{send_ttt}/send_move',attrs,function(d){
       #{proto_rid && state.isnull() => start_js | "location.reload()"}
     })
   })
@@ -96,6 +102,7 @@ $('button#s').click(function(){
   var me = $('#me').val()
   var move = []
   var them = $('#them option:selected').text()
+  if(them.length===0) return
   $.getJSON('#{send_ttt}/start',{me:me,them:them},function(){
     #{proto_rid => start_js | ""}
   })
