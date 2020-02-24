@@ -62,7 +62,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       "ui_html_rid": aux_rid,
       "ui_html_name": "html",
       "channel_name": channel_name,
-      "channel_id": wrangler:channel(channel_name) || meta:eci,
+      "channel_id": wrangler:channel(channel_name){"id"} || meta:eci,
     })
   }
 //
