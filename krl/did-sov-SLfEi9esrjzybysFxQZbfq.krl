@@ -50,15 +50,6 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         .reduce(function(m,v){m.put(v{"their_vk"},v{"label"})},{})
     }
     channel_name = "tictactoe"
-    plugin = {
-      "rid": meta:rid,
-      "piuri": piuri,
-      "name": meta:rulesetName,
-      "ui_html_rid": aux_rid,
-      "ui_html_name": "html",
-      "channel_name": channel_name,
-      "channel_id": wrangler:channel(channel_name){"id"} || meta:eci,
-    }
     tictactoe_policy = {
       "name": "Tic Tac Toe policy",
       "event": {
@@ -84,7 +75,18 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
 //
   rule identify_as_agent_plug_in {
     select when agent request_for_plug_ins
-    send_directive("spec",plugin)
+    pre {
+      plugin = {
+        "rid": meta:rid,
+        "piuri": piuri,
+        "name": meta:rulesetName,
+        "ui_html_rid": aux_rid,
+        "ui_html_name": "html",
+        "channel_name": channel_name,
+        "channel_id": wrangler:channel(channel_name){"id"} || meta:eci,
+      }
+  }
+  send_directive("spec",plugin)
     fired {
       raise agent event "plugin_reported" attributes plugin
     }
