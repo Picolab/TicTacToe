@@ -13,7 +13,7 @@ It is intended for use as follows:
 1. The owner/operator of the pico-engine hosting their picos has registered three rulesets²
 1. The owner/operator of the pico-engine makes the [`agent.html` UI](https://github.com/Picolab/pico-agent-ui) available
 1. One, say Alice, installs the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset into their Pico Agent³
-1. With this ruleset installs, her Pico Agent UI shows the Tic Tac Toe plugin and its UI⁴
+1. With this ruleset installed, her Pico Agent UI shows the Tic Tac Toe plugin and its UI⁴
 1. Alice proposes a game of Tic Tac Toe to Bob using the Tic Tac Toe embedded UI⁵
 1. Upon receipt of the `basicmessage` from Alice, Bob's agent installs the ruleset and displays the UI⁶
 1. They play as long as they want
