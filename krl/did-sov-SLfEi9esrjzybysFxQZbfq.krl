@@ -1,7 +1,10 @@
 ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
   meta {
     name "TicTacToe"
-    description "tictactoe/1.0"
+    description <<
+      Implements protocol for Tic Tac Toe over DIDComm
+      did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0
+    >>
     use module io.picolabs.wrangler alias wrangler
     use module org.sovrin.agent alias agent
     shares __testing, ui_url, start_message
@@ -15,7 +18,6 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       ]
     }
     piuri = "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0"
-    mturi = (piuri + "/([A-Za-z0-9_.-]+)").as("RegExp")
     tttMoveMap = function(me,moves,comment){
       {
         "@type": piuri + "/move",
@@ -85,8 +87,8 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         "channel_name": channel_name,
         "channel_id": wrangler:channel(channel_name){"id"} || meta:eci,
       }
-  }
-  send_directive("spec",plugin)
+    }
+    send_directive("spec",plugin)
     fired {
       raise agent event "plugin_reported" attributes plugin
     }
@@ -139,18 +141,18 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
     }
   }
 //
-// eavesdrop incoming agent basicmessages for one of interest
+// handle received protocol message if for me
 //
-  rule eavesdrop_basicmessage {
-    select when sovrin basicmessage_message
-      where event:attr("message"){["content","@type"]}.match(mturi)
+  rule handle_received_protocol_message {
+    select when plugin protocol_message_received
+      where event:attr("piuri") == piuri
     pre {
-      content = event:attr("message"){"content"}
-      event_type = content{"@type"}.extract(mturi).head()
-      conn = event_type => agent:connections(){event:attr("sender_key")}
-                         | null
+      content = event:attr("content")
+      event_type = event:attr("event_type")
+      their_vk = event:attr("sender_key")
+      conn = agent:connections(){their_vk}
     }
-    if event_type && conn then noop()
+    if conn then noop()
     fired {
       ent:opponent := conn{"label"}
       ent:their_vk := conn{"their_vk"}
