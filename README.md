@@ -7,25 +7,38 @@ The protocol is there merely as "a way to demonstrate how all protocols should b
 However, it provides a useful sample KRL project of intermediate size,
 and demonstrates the concept of an application running on top of DIDComm.
 
-It is intended for use as follows:
+## Why a game?
 
-1. Bob and Alice have an Aries DIDComm connection, both using Pico Agents¹
-1. The owner/operator of the pico-engine hosting their picos has registered three rulesets²
-1. The owner/operator of the pico-engine makes the [`agent.html` UI](https://github.com/Picolab/pico-agent-ui) available
-1. One, say Alice, installs the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset into their Pico Agent³
-1. With this ruleset installed, her Pico Agent UI shows the Tic Tac Toe plugin and its UI⁴
+First, because it is a well-known protocol.
+
+More importantly, because it illustrates the value of using DIDComm as a transport layer.
+Messages are sent point-to-point, encrypted and signed.
+
+## Prerequisites
+
+This implementation uses Pico Agents¹ only.
+
+Picos are hosted on one (or more) pico-engines, which are owned and operated by someone.
+The pico-engine must of course have support for Aries agents.
+In addition to that, the owner/operator must install three rulesets² for this appliction.
+
+A protocol plugin mechanism is involved, so the pico-engine must have
+the `org.sovrin.didcomm_plugins` ruleset.
+
+The two players (here Alice and Bob) each must be operating a Pico Agent,
+and they must have established a connection before beginning to play.
+
+## How the game is played
+
+1. One person, say Alice, installs the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset into their Pico Agent³
+1. With this ruleset installed, her Pico Agent UI shows the Tic Tac Toe plugin and its UI⁴ in the lower right corner
 1. Alice proposes a game of Tic Tac Toe to Bob using the Tic Tac Toe embedded UI⁵
 1. Upon receipt of the `basicmessage` from Alice, Bob's agent installs the ruleset and displays the UI⁶
 1. They play as long as they want
 1. To prepare to play another game, each clicks the "reset" button
 
 
-Still to do:
-
-- [x] detect end of game
-- [x] use the actual protocol as the event attributes
-- [ ] add an in-game comment facility?
-- [x] modify to allow agent-agent routing
+## Notes
 
 ¹ [get Pico Agents here](https://github.com/Picolab/G2S) and your pico-engine MUST be at version 0.52.3 or higher
 
