@@ -11,7 +11,8 @@ and demonstrates the concept of an application running on top of DIDComm.
 
 First, because it is a well-known protocol.
 
-More importantly, because it illustrates the value of using DIDComm as a transport layer.
+More importantly, because it illustrates the value of using the DIDComm
+`basicmessage` as a transport layer.
 Messages are sent point-to-point, encrypted and signed.
 
 ## Prerequisites
