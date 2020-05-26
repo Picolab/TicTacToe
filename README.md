@@ -49,13 +49,13 @@ and they must have established a connection before beginning to play.
 
 ³ How to install the ruleset.
 Visit the Rulesets tab of your agent pico.
-Notice that it has the `org.sovrin.agent` ruleset, and the `org.sovrin.didcomm_plugins` ruleset.
+Notice that it has the `io.picolabs.agent` ruleset, and the `org.sovrin.didcomm_plugins` ruleset.
 Select the `did-sov-SLfEi9esrjzybysFxQZbfq` ruleset in the dropdown.
 Click on the "install ruleset" button.
 
 ![Preparing to install the ruleset](https://picolab.github.io/TicTacToe/images/Step3a.png)
 
-Note that installing the ruleset also causes the `org.sovrin.tic_tac_toe` ruleset to be installed.
+Note that installing the ruleset also causes the `io.picolabs.tic_tac_toe` ruleset to be installed.
 
 ![After installing the rulesets](https://picolab.github.io/TicTacToe/images/Step3b.png)
 
