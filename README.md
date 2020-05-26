@@ -7,7 +7,7 @@ The protocol is there merely as "a way to demonstrate how all protocols should b
 However, it provides a useful sample KRL project of intermediate size,
 and demonstrates the concept of an application running on top of DIDComm.
 
-## Why a game?
+## Why a game? Why _this_ game?
 
 First, because it is a well-known protocol.
 
@@ -18,6 +18,8 @@ Messages are sent point-to-point, encrypted and signed.
 ## Prerequisites
 
 This implementation uses Pico Agents¹ only.
+Note that the Pico Agent code base is now deprecated,
+so this code needs to be re-written to use ACA-Pico agents.
 
 Picos are hosted on one (or more) pico-engines, which are owned and operated by someone.
 The pico-engine must of course have support for Aries agents.
