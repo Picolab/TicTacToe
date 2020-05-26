@@ -1,6 +1,6 @@
-ruleset org.sovrin.tic_tac_toe {
+ruleset io.picolabs.tic_tac_toe {
   meta {
-    use module org.sovrin.tic_tac_toe.ui alias ui
+    use module io.picolabs.tic_tac_toe.ui alias ui
     shares __testing, state, them, html, is_winner
   }
   global {
@@ -35,7 +35,7 @@ ruleset org.sovrin.tic_tac_toe {
         ent:possible_opponents_string.decode())
     }
     board = function(move){
-      cell = move.extract(re#([A-C][1-3])$#).head();
+      cell = move.extract(re#([A-C][1-3])$#).head()
       ent:moves >< "X:"+cell => "X" |
       ent:moves >< "O:"+cell => "O" |
       null
@@ -84,10 +84,10 @@ ruleset org.sovrin.tic_tac_toe {
       move = event:attr("move")
     }
     fired {
-      ent:them := event:attr("them");
-      ent:me := me;
-      ent:state := "their_move";
-      ent:moves := move => [move] | [];
+      ent:them := event:attr("them")
+      ent:me := me
+      ent:state := "their_move"
+      ent:moves := move => [move] | []
       clear ent:winner
     }
   }
@@ -99,10 +99,10 @@ ruleset org.sovrin.tic_tac_toe {
        move re#^([XO]):[A-C][1-3]$# setting(player)
        where ent:state.isnull()
     fired {
-      ent:them := event:attr("them");
-      ent:me := player;
-      ent:state := "my_move";
-      ent:moves := [];
+      ent:them := event:attr("them")
+      ent:me := player
+      ent:state := "my_move"
+      ent:moves := []
       clear ent:winner
     }
   }
@@ -140,10 +140,10 @@ ruleset org.sovrin.tic_tac_toe {
         {"next":<<#{meta:host}/sky/cloud/#{meta:eci}/#{meta:rid}/html.html>>})
     }
     fired {
-      ent:moves := ent:moves.append(move);
-      ent:state := "their_move";
-      last;
-      raise event "ttt:new_move_made";
+      ent:moves := ent:moves.append(move)
+      ent:state := "their_move"
+      last
+      raise event "ttt:new_move_made"
       raise event "ttt:new_move_to_send" attributes {
         "me": ent:me, "moves": ent:moves
       }
@@ -160,10 +160,10 @@ ruleset org.sovrin.tic_tac_toe {
     select when ttt start_of_new_game
       me re#^([XO])# setting(player)
     fired {
-      ent:them := event:attr("them");
-      ent:me := player == "X" => "O" | "X";
-      ent:state := "my_move";
-      ent:moves := [];
+      ent:them := event:attr("them")
+      ent:me := player == "X" => "O" | "X"
+      ent:state := "my_move"
+      ent:moves := []
       clear ent:winner
     }
   }
@@ -175,10 +175,10 @@ ruleset org.sovrin.tic_tac_toe {
       player = move.substr(0,1)
     }
     fired {
-      ent:them := event:attr("them");
-      ent:me := player == "X" => "O" | "X";
-      ent:state := "my_move";
-      ent:moves := [move];
+      ent:them := event:attr("them")
+      ent:me := player == "X" => "O" | "X"
+      ent:state := "my_move"
+      ent:moves := [move]
       clear ent:winner
     }
   }
@@ -188,9 +188,9 @@ ruleset org.sovrin.tic_tac_toe {
       where ent:state == "their_move"
     //TODO check everything; for now: be careful testing
     fired {
-      ent:them := event:attr("them");
-      ent:moves := ent:moves.append(move);
-      ent:state := "my_move";
+      ent:them := event:attr("them")
+      ent:moves := ent:moves.append(move)
+      ent:state := "my_move"
       raise event "ttt:new_move_made"
     }
   }
@@ -209,8 +209,8 @@ ruleset org.sovrin.tic_tac_toe {
     if winner then
       send_directive("game over",{"winner":winner})
     fired {
-      ent:state := "done";
-      ent:winner := winner;
+      ent:state := "done"
+      ent:winner := winner
       raise ttt event "game_over" attributes {
         "winner": winner,
         "comment": draw => "Cat's game"
@@ -232,11 +232,11 @@ ruleset org.sovrin.tic_tac_toe {
     }
     send_directive("game over",options)
     fired {
-      clear ent:them;
-      clear ent:me;
-      clear ent:moves;
-      clear ent:state;
-      clear ent:winner;
+      clear ent:them
+      clear ent:me
+      clear ent:moves
+      clear ent:state
+      clear ent:winner
       raise ttt event "game_over" attributes options
     }
   }

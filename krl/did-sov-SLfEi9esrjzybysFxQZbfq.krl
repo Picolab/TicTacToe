@@ -33,7 +33,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         "comment": comment || "game over"
       } // caller to add threading
     }
-    aux_rid = "org.sovrin.tic_tac_toe"
+    aux_rid = "io.picolabs.tic_tac_toe"
     ui_url = function(){
       eci = meta:eci
       <<#{meta:host}/sky/cloud/#{eci}/#{aux_rid}/html.html>>
