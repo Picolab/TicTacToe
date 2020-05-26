@@ -14,7 +14,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
       [ { "name": "__testing" }
       , { "name": "ui_url" }
       ] , "events":
-      [
+      [ { "domain": "tictactoe", "type": "engine_policy_expired" }
       ]
     }
     piuri = "did:sov:SLfEi9esrjzybysFxQZbfq;spec/tictactoe/1.0"
@@ -71,6 +71,11 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         ]
       },
     }
+    find_policy = function(){
+      engine:listPolicies()
+        .filter(function(v){v{"name"}==tictactoe_policy{"name"}})
+        .head()
+    }
   }
 //
 // identify as agent plug-in
@@ -110,12 +115,20 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
         attributes {"possible_opponents": possible_opponents()}
     }
   }
+  rule reset_engine_policy {
+    select when tictactoe engine_policy_expired
+    pre {
+      the_policy = find_policy()
+    }
+    if the_policy then every {
+      engine:removePolicy(the_policy{"id"})
+      wrangler:newPolicy(tictactoe_policy)
+    }
+  }
   rule create_engine_policy {
     select when wrangler ruleset_added where event:attr("rids") >< meta:rid
     pre {
-      the_policy = engine:listPolicies()
-        .filter(function(v){v{"name"}==tictactoe_policy{"name"}})
-        .head()
+      the_policy = find_policy()
     }
     if the_policy.isnull() then
       wrangler:newPolicy(tictactoe_policy)
@@ -123,9 +136,7 @@ ruleset did-sov-SLfEi9esrjzybysFxQZbfq {
   rule create_game_channel {
     select when wrangler ruleset_added where event:attr("rids") >< meta:rid
     pre {
-      the_policy = engine:listPolicies()
-        .filter(function(v){v{"name"}==tictactoe_policy{"name"}})
-        .head()
+      the_policy = find_policy()
     }
     if wrangler:channel(channel_name).isnull() then
       wrangler:createChannel(meta:picoId,channel_name,"ui",the_policy{"id"})
