@@ -24,6 +24,8 @@ so this code needs to be re-written to use ACA-Pico agents.
 Picos are hosted on one (or more) pico-engines, which are owned and operated by someone.
 The pico-engine must of course have support for Aries agents.
 In addition to that, the owner/operator must install three rulesets² for this appliction.
+The pico-engine operator must have also installed the 
+[standalone UI for a Pico Agent](https://github.com/Picolab/pico-agent-ui).
 
 A protocol plugin mechanism is involved, so the pico-engine must have
 the `org.sovrin.didcomm_plugins` ruleset.
